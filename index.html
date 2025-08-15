@@ -1,196 +1,408 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>some_useless_person — Portfolio</title>
-    <meta name="description" content="Portfolio of some_useless_person (Moondip Konwar): web dev, Godot, music, anime enjoyer." />
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Moondip Konwar – Portfolio</title>
 
-    <!-- Tailwind CSS via CDN — v3.4.x -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      // Tailwind config: enable dark mode classes and custom colors
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              base: '#0a0b1e',
-              neonPink: '#ff3cac',
-              neonPurple: '#784ba0',
-              neonBlue: '#2b86c5',
-            },
-            dropShadow: {
-              neon: '0 0 0.35rem rgba(255,60,172,0.9), 0 0 0.8rem rgba(43,134,197,0.6)',
-            },
-            animation: {
-              float: 'float 6s ease-in-out infinite',
-              glow: 'glow 2s ease-in-out infinite',
-              fadeInUp: 'fadeInUp 700ms ease-out both',
-            },
-            keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0px)' },
-                '50%': { transform: 'translateY(-10px)' },
-              },
-              glow: {
-                '0%,100%': { filter: 'drop-shadow(0 0 0.25rem rgba(255,60,172,0.8))' },
-                '50%': { filter: 'drop-shadow(0 0 0.65rem rgba(43,134,197,0.9))' },
-              },
-              fadeInUp: {
-                '0%': { opacity: 0, transform: 'translateY(14px)' },
-                '100%': { opacity: 1, transform: 'translateY(0)' },
-              },
-            },
-          },
-        },
-      };
-    </script>
+  <!-- Font Awesome (cdnjs) with integrity for 6.5.2 -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
 
-    <!-- Font Awesome Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkfNf1s2kQjrISFRCGDpa2BkLomqKgJo0vvVuvyJYb0Z9fW5x1U9Q8Feg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+  <!-- Tailwind Play CDN (Tailwind v4.x via Play CDN). Version: v4.1.12 -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
-      /* Force dark background even on light devices */
-      :root { color-scheme: dark; }
-      .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.06); }
-      .gradient-text {
-        background: linear-gradient(90deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
-        -webkit-background-clip: text; background-clip: text; color: transparent;
-      }
-      .neon-border { box-shadow: 0 0 16px rgba(255,60,172,0.35), 0 0 32px rgba(43,134,197,0.25) inset; }
-    </style>
-  </head>
-  <body class="bg-base min-h-screen text-white selection:bg-fuchsia-500/30">
-    <!-- Decorative neon blobs -->
-    <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10">
-      <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full blur-3xl opacity-40"
-           style="background: radial-gradient(closest-side, #ff3cac 30%, transparent)"></div>
-      <div class="absolute bottom-16 -right-20 h-80 w-80 rounded-full blur-3xl opacity-40"
-           style="background: radial-gradient(closest-side, #2b86c5 30%, transparent)"></div>
-      <div class="absolute top-1/3 right-1/3 h-40 w-40 rounded-full blur-2xl opacity-30"
-           style="background: radial-gradient(closest-side, #784ba0 30%, transparent)"></div>
-    </div>
+  <style>
+    /* stronger saturation, brighter accents, darker backgrounds */
+    :root{
+      --bg-1: #000000;      /* pure black */
+      --bg-2: #030608;      /* near-black */
+      --muted: #e6f8ea;     /* lighter muted for better contrast */
+      --green: #28ff7a;     /* brighter green accent */
+      --glass: rgba(255,255,255,0.015);
+    }
 
-    <header class="container mx-auto px-6 py-6">
-      <nav class="flex items-center justify-between">
-        <a href="#" class="text-sm tracking-widest uppercase text-white/70 hover:text-white transition">Home</a>
-        <div class="flex gap-4 text-lg">
-          <a class="hover:drop-shadow-neon transition" href="#projects">Projects</a>
-          <a class="hover:drop-shadow-neon transition" href="#contact">Contact</a>
-        </div>
-      </nav>
-    </header>
+    html{ scroll-behavior: smooth; }
 
-    <main class="container mx-auto px-6 pt-2 pb-16">
-      <section class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center min-h-[70vh]">
-        <!-- Left: Intro -->
-        <div class="space-y-6">
-          <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight gradient-text animate-fadeInUp">
-            some_useless_person
-          </h1>
-          <p class="text-lg sm:text-xl text-white/80 animate-fadeInUp [animation-delay:120ms]">
-            Turning coffee into code — and bugs into “undocumented features”.
-          </p>
+    /* darker, slightly more saturated moving bg */
+    body::before{
+      content:''; position:fixed; inset:0; z-index:-2;
+      background:
+        radial-gradient(1200px 900px at 6% 16%, rgba(40,255,120,0.08), transparent 6%),
+        radial-gradient(1000px 600px at 92% 84%, rgba(4,6,3,0.14), transparent 10%);
+      animation: bgMove 18s linear infinite;
+      mix-blend-mode: screen; opacity:1; filter: saturate(132%) contrast(106%);
+    }
+    @keyframes bgMove{ 0%{ transform: translateY(0) } 50%{ transform: translateY(-28px) } 100%{ transform: translateY(0) } }
 
-          <p class="max-w-prose text-white/70 animate-fadeInUp [animation-delay:220ms]">
-            I build on the web, compose music when the code compiles, and binge anime when it doesn’t. Godot game dabbler. MAL: <a class="underline hover:text-fuchsia-300" href="https://myanimelist.net/profile/HeHe269" target="_blank" rel="noreferrer">HeHe269</a>.
-          </p>
+    body{ background: linear-gradient(180deg,var(--bg-1),var(--bg-2)); color: #f4fff6; }
 
-          <!-- Skills -->
-          <div class="flex flex-wrap gap-3 animate-fadeInUp [animation-delay:320ms]">
-            <span class="glass px-3 py-1.5 rounded-full text-sm">Vue / Nuxt</span>
-            <span class="glass px-3 py-1.5 rounded-full text-sm">Godot (GDScript)</span>
-            <span class="glass px-3 py-1.5 rounded-full text-sm">Python</span>
-            <span class="glass px-3 py-1.5 rounded-full text-sm">Tailwind CSS</span>
-          </div>
+    .neon-green{ color:var(--green); text-shadow: 0 0 14px rgba(40,255,120,0.16), 0 0 36px rgba(40,255,120,0.04); }
 
-          <!-- CTAs -->
-          <div class="flex flex-wrap gap-4 pt-2 animate-fadeInUp [animation-delay:420ms]">
-            <a href="#projects" class="group inline-flex items-center gap-2 rounded-2xl px-5 py-3 font-semibold glass hover:drop-shadow-neon transition">
-              <i class="fa-solid fa-code"></i>
-              <span>See Projects</span>
-              <i class="fa-solid fa-arrow-right translate-x-0 group-hover:translate-x-1 transition"></i>
-            </a>
-            <a href="#contact" class="inline-flex items-center gap-2 rounded-2xl px-5 py-3 font-semibold border border-white/15 hover:border-white/30 hover:bg-white/5 transition">
-              <i class="fa-regular fa-paper-plane"></i>
-              <span>Contact</span>
-            </a>
-          </div>
+    /* entrance / reveal animations (replayable) */
+    .reveal{ opacity:0; transform: translateY(8px); transition: transform .7s cubic-bezier(.16,.9,.2,1), opacity .56s ease; }
+    .reveal.show{ opacity:1; transform:none; }
 
-          <!-- Socials -->
-          <div class="flex items-center gap-5 pt-4 animate-fadeInUp [animation-delay:520ms]">
-            <a class="hover:drop-shadow-neon transition" href="https://github.com/moondip-konwar" target="_blank" rel="noreferrer" aria-label="GitHub"><i class="fa-brands fa-github fa-xl"></i></a>
-            <a class="hover:drop-shadow-neon transition" href="https://reddit.com/user/some_useless_person" target="_blank" rel="noreferrer" aria-label="Reddit"><i class="fa-brands fa-reddit-alien fa-xl"></i></a>
-            <a class="hover:drop-shadow-neon transition" href="https://myanimelist.net/profile/HeHe269" target="_blank" rel="noreferrer" aria-label="MyAnimeList"><i class="fa-solid fa-list fa-xl"></i></a>
-            <a class="hover:drop-shadow-neon transition" href="mailto:moondipkonwar9@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope fa-xl"></i></a>
-          </div>
-        </div>
+    .slide-left{ opacity:0; transform:translateX(-22px) rotate(-0.4deg); transition: transform .7s cubic-bezier(.16,.9,.2,1), opacity .6s ease; }
+    .slide-right{ opacity:0; transform:translateX(22px) rotate(0.4deg); transition: transform .7s cubic-bezier(.16,.9,.2,1), opacity .6s ease; }
+    .slide-left.show, .slide-right.show{ transform:none; opacity:1; }
 
-        <!-- Right: Mascot -->
-        <div class="relative order-first md:order-last">
-          <div class="relative mx-auto max-w-[360px] md:max-w-md animate-float">
-            <img src="assets/mascot.png" alt="Mascot" class="w-full h-auto rounded-3xl neon-border" />
-            <!-- glow ring -->
-            <div class="absolute -inset-3 rounded-3xl -z-10 opacity-40 blur-2xl"
-                 style="background: conic-gradient(from 90deg, rgba(255,60,172,0.5), rgba(120,75,160,0.5), rgba(43,134,197,0.5), rgba(255,60,172,0.5))"></div>
-          </div>
-        </div>
-      </section>
+    /* subtle live animations so page never feels static */
+    .slow-sway{ animation: sway 8s ease-in-out infinite; }
+    @keyframes sway{ 0%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } 100%{ transform: translateY(0) } }
 
-      <!-- Projects Placeholder -->
-      <section id="projects" class="mt-16">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-6">Featured Projects</h2>
-        <p class="text-white/70 mb-6">Add these later. For now, enjoy the dramatic empty state — it screams “WIP but vibey”.</p>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Example card (duplicate and edit later) -->
-          <article class="group glass rounded-2xl p-5 transition hover:drop-shadow-neon">
-            <div class="flex items-center justify-between mb-3">
-              <h3 class="font-semibold">Your Project</h3>
-              <i class="fa-solid fa-wand-magic-sparkles opacity-60 group-hover:opacity-100 transition"></i>
+    .pulse-small{ animation: smallPulse 3.4s ease-in-out infinite; }
+    @keyframes smallPulse{ 0%{ transform: scale(1) } 50%{ transform: scale(1.01) } 100%{ transform: scale(1) } }
+
+    /* mascot idle sparkle */
+    .mascot-spark{ position:absolute; inset:auto; right:-6px; top:-6px; width:10px; height:10px; border-radius:50%; background: radial-gradient(circle, rgba(40,255,120,0.9), rgba(40,255,120,0.2)); opacity:0; pointer-events:none; animation: spark 5s linear infinite; }
+    @keyframes spark{ 0%{ opacity:0; transform:scale(.6) } 5%{ opacity:1 } 20%{ opacity:0; transform:scale(1.6) } 100%{ opacity:0 } }
+
+    /* project card liveliness */
+    .project-card{ transition: transform .28s, box-shadow .28s, border-color .2s; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.04); backdrop-filter: blur(10px) saturate(140%); }
+    .project-card:hover{ transform: translateY(-10px) scale(1.02); box-shadow: 0 28px 70px rgba(0,0,0,0.75), 0 8px 24px rgba(40,255,120,0.06); border-color: rgba(40,255,120,0.25); }
+    .card-float{ animation: cardFloat 7.4s ease-in-out infinite; }
+    @keyframes cardFloat{ 0%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } 100%{ transform: translateY(0) } }
+
+    /* modal tweaks */
+    .overlay{ position:fixed; inset:0; display:grid; place-items:center; background:rgba(0,0,0,0.7); z-index:70; opacity:0; pointer-events:none; transition: opacity .28s ease; }
+    .overlay.show{ opacity:1; pointer-events:auto; }
+    .modal{ width:min(920px,94%); border-radius:12px; padding:22px; background:linear-gradient(180deg, rgba(10,12,10,0.98), rgba(2,4,3,0.99)); border:1px solid rgba(255,255,255,0.04); transform: translateY(12px) scale(.995); transition: transform .36s cubic-bezier(.16,.9,.2,1); }
+    .overlay.show .modal{ transform:none; }
+
+    /* skills bars */
+    .skill-bar{ height:12px; background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border-radius:999px; overflow:hidden; }
+    .skill-fill{ height:100%; width:0%; border-radius:999px; transition: width 900ms cubic-bezier(.2,.9,.2,1); background: linear-gradient(90deg, rgba(40,255,120,0.98), rgba(40,255,120,0.6)); box-shadow:0 8px 26px rgba(40,255,120,0.06); }
+
+    /* timeline */
+    .timeline-item{ opacity:0; transform:translateY(12px); transition: all .6s cubic-bezier(.2,.9,.2,1); }
+    .timeline-item.show{ opacity:1; transform:none; }
+
+    /* back to top */
+    #topBtn{ position:fixed; right:18px; bottom:18px; z-index:60; display:grid; place-items:center; width:48px; height:48px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.04); cursor:pointer; }
+    #topBtn:hover{ transform: translateY(-4px); box-shadow: 0 14px 34px rgba(0,0,0,0.6); }
+
+    /* layout tweak: don't leave massive empty column space under mascot on laptop */
+    @media(min-width:1100px){ .layout-grid{ grid-template-columns: 1fr minmax(220px, 380px); } aside{ align-self:center; } }
+    @media(min-width:1400px){ .layout-grid{ grid-template-columns: 1fr minmax(260px, 420px); } aside{ align-self:start; position:sticky; top:80px; } }
+    @media(max-width:1099px){ .layout-grid{ grid-template-columns: 1fr; } aside{ order:-1; } #mascotWrap{ margin:0 auto 8px } }
+
+    .projects-grid{ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; }
+
+    /* micro ripple effect for buttons */
+    .ripple{ position:relative; overflow:hidden; }
+    .ripple::after{ content:''; position:absolute; width:120%; height:120%; left:-10%; top:-10%; background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,0.06), transparent 20%); opacity:0; transition: opacity .4s; pointer-events:none; }
+    .ripple:active::after{ opacity:1; transition:none; }
+
+    a:focus{ outline:3px solid rgba(40,255,120,0.2); outline-offset:4px; }
+
+  </style>
+</head>
+<body class="antialiased">
+
+  <main class="min-h-screen flex items-start justify-center p-6">
+    <section id="page" class="w-full max-w-7xl rounded-2xl p-6 lg:p-10 layout-grid grid gap-6" style="background:var(--glass); border:1px solid rgba(255,255,255,0.03); backdrop-filter: blur(12px);">
+
+      <!-- LEFT: Main content -->
+      <div class="space-y-8 pr-2 lg:pr-10">
+        <!-- HERO -->
+        <header class="flex flex-col gap-3 slide-left" data-i="0">
+          <div class="flex items-center gap-4">
+            <div>
+              <h1 class="text-5xl md:text-6xl font-extrabold neon-green tracking-tight">Moondip Konwar</h1>
+              <div class="mt-2 text-[var(--muted)] flex items-center gap-3">
+                <span>@some_useless_person</span>
+                <span class="px-2 py-1 rounded-full bg-black/25 text-xs">Vue • Nuxt • Godot • Python • Linux</span>
+              </div>
             </div>
-            <p class="text-white/70 text-sm">Short description goes here. Replace me with something brag-worthy.</p>
-            <a class="inline-flex items-center gap-2 mt-4 text-sm opacity-80 hover:opacity-100" href="#" target="_blank" rel="noreferrer">
-              <span>Open</span>
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
-          </article>
-          <!-- /Example -->
+          </div>
+
+          <p class="mt-4 text-[var(--muted)] max-w-prose slide-right" data-i="1">I build interactive front-ends with <strong class="neon-green">Vue/Nuxt</strong>, make games with <strong class="neon-green">Godot (GDScript)</strong>, write Python tools and live in Linux terminals. This portfolio is a living thing — it grows when I procrastinate less.</p>
+
+          <div class="flex gap-3 mt-4">
+            <a id="btnProjects" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/30 hover:bg-black/40 ripple" href="#projects">View Projects <i class="fa-solid fa-arrow-right ml-1 text-[var(--green)]"></i></a>
+            <a class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/30 hover:bg-black/40 ripple" href="#contact">Get in touch <i class="fa-solid fa-envelope ml-1 text-[var(--green)]"></i></a>
+          </div>
+        </header>
+
+        <!-- ABOUT -->
+        <section id="about" class="rounded-xl p-6 bg-black/20 border border-white/6 slide-right" data-i="2">
+          <h2 class="text-2xl font-semibold neon-green">About Me</h2>
+          <p class="mt-3 text-[var(--muted)]">I enjoy turning brittle ideas into durable code. On any given week I'm juggling a Nuxt SSR build, a Godot prototype, and a small Python script to automate the things I should've automated days ago. I like clean UI, deterministic behavior, and terminal-based rituals.</p>
+
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <h3 class="text-lg font-semibold neon-green">Focus</h3>
+              <ul class="mt-2 text-[var(--muted)] list-disc list-inside">
+                <li>Web apps with Vue & Nuxt</li>
+                <li>2D game prototypes in Godot (GDScript)</li>
+                <li>Python tooling & automation</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold neon-green">Interests</h3>
+              <p class="mt-2 text-[var(--muted)]">Open-source, efficient workflows, retro game mechanics, Linux customizations, and music (piano & guitar). I also rate a suspicious number of anime on MAL.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills" class="rounded-xl p-6 bg-black/15 border border-white/6 slide-left" data-i="3">
+          <h2 class="text-2xl font-semibold neon-green">Skills</h2>
+          <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="p-3 rounded-md bg-black/25 text-center">
+              <i class="fa-brands fa-vuejs fa-2x text-[var(--green)]"></i>
+              <div class="mt-2 text-[var(--muted)]">Vue / Nuxt</div>
+              <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="88"></div></div>
+            </div>
+            <div class="p-3 rounded-md bg-black/25 text-center">
+              <i class="fa-brands fa-python fa-2x text-[var(--green)]"></i>
+              <div class="mt-2 text-[var(--muted)]">Python</div>
+              <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="82"></div></div>
+            </div>
+            <div class="p-3 rounded-md bg-black/25 text-center">
+              <i class="fa-brands fa-linux fa-2x text-[var(--green)]"></i>
+              <div class="mt-2 text-[var(--muted)]">Linux</div>
+              <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="94"></div></div>
+            </div>
+            <div class="p-3 rounded-md bg-black/25 text-center">
+              <i class="fa-solid fa-gamepad fa-2x text-[var(--green)]"></i>
+              <div class="mt-2 text-[var(--muted)]">Godot / GDScript</div>
+              <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="78"></div></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- EXPERIENCE / TIMELINE -->
+        <section id="experience" class="rounded-xl p-6 bg-black/12 border border-white/6 slide-right" data-i="4">
+          <h2 class="text-2xl font-semibold neon-green">Experience & Projects Timeline</h2>
+          <div class="mt-6 space-y-6 timeline">
+            <div class="pl-6 timeline-item">
+              <div class="text-sm text-[var(--muted)]">2024 — Present</div>
+              <div class="mt-1 font-semibold">Freelance Web & Game Dev</div>
+              <p class="mt-2 text-[var(--muted)]">Building small to medium sized Vue/Nuxt projects and indie game prototypes in Godot. Focused on performance and tight UX.</p>
+            </div>
+
+            <div class="pl-6 timeline-item">
+              <div class="text-sm text-[var(--muted)]">2023</div>
+              <div class="mt-1 font-semibold">Cognivue</div>
+              <p class="mt-2 text-[var(--muted)]">A front-end demo exploring visual interaction patterns (link in Projects).</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROJECTS (data-driven) -->
+        <section id="projects" class="rounded-xl p-6 bg-black/10 border border-white/6 slide-left" data-i="5">
+          <div class="flex items-center justify-between">
+            <h2 class="text-2xl font-semibold neon-green">Projects</h2>
+            <div class="text-sm text-[var(--muted)]">(projects loaded via JS)</div>
+          </div>
+          <div class="mt-4 grid projects-grid" aria-live="polite">
+            <!-- injected cards -->
+          </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="rounded-xl p-6 bg-black/15 border border-white/6 slide-right" data-i="6">
+          <h2 class="text-2xl font-semibold neon-green">Contact</h2>
+          <p class="mt-3 text-[var(--muted)]">Hit me up on MAL, reddit or email. I respond to reasonable bribes and properly formatted pull requests.</p>
+
+          <div class="mt-4 flex flex-wrap gap-3">
+            <a class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/30 hover:bg-black/40 ripple" href="mailto:moondip@example.com"><i class="fa-solid fa-envelope text-[var(--green)]"></i> Email</a>
+            <a class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/30 hover:bg-black/40 ripple" href="https://myanimelist.net/profile/HeHe269" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-star text-[var(--green)]"></i> MAL (HeHe269)</a>
+            <a class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/30 hover:bg-black/40 ripple" href="https://reddit.com/user/some_useless_person" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-reddit text-[var(--green)]"></i> reddit (@some_useless_person)</a>
+          </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="pt-8 text-sm text-[var(--muted)] slide-left" data-i="7">
+          <div class="flex items-center gap-3">
+            <span>Made with ☕ and excessive stubbornness.</span>
+            <span class="ml-auto">© Moondip Konwar</span>
+          </div>
+        </footer>
+      </div>
+
+      <!-- RIGHT: Mascot column (kept static in its column to avoid overlap) -->
+      <aside class="flex items-center justify-center lg:sticky lg:top-24">
+        <div id="mascotWrap" class="tilt floaty w-56 h-56 lg:w-72 lg:h-72 rounded-full ring-4 ring-[var(--green)] p-1 bg-gradient-to-br from-black/20 to-transparent" style="backdrop-filter: blur(6px); position:relative;">
+          <img src="assets/mascot.jpeg" alt="Mascot" class="w-full h-full object-cover rounded-full" />
+          <div class="mascot-spark" aria-hidden></div>
         </div>
-      </section>
+      </aside>
 
-      <!-- Contact -->
-      <section id="contact" class="mt-20">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-6">Contact</h2>
-        <div class="glass rounded-2xl p-6">
-          <p class="text-white/80">Email me at <a class="underline hover:text-fuchsia-300" href="mailto:moondipkonwar9@gmail.com">moondipkonwar9@gmail.com</a> — or stalk me on the links above like a civilized internet gremlin.</p>
+    </section>
+  </main>
+
+  <!-- overlay modal for project preview -->
+  <div id="overlay" class="overlay" aria-hidden>
+    <div class="modal">
+      <div class="flex items-start gap-4">
+        <div class="w-16 h-16 rounded-lg bg-black/30 grid place-items-center">
+          <i id="modalIcon" class="fa-lg text-[var(--green)]"></i>
         </div>
-      </section>
-    </main>
+        <div class="min-w-0">
+          <h3 id="modalTitle" class="text-xl font-semibold neon-green"></h3>
+          <p id="modalDesc" class="text-[var(--muted)] mt-2"></p>
+          <div id="modalTags" class="mt-3 flex flex-wrap gap-2"></div>
+          <div class="mt-4 flex gap-3">
+            <a id="modalOpen" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/25 hover:bg-black/35" href="#">Open Project <i class="fa-solid fa-arrow-up-right-from-square text-[var(--green)]"></i></a>
+            <button id="modalClose" class="px-3 py-2 rounded-md bg-black/20">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <footer class="container mx-auto px-6 py-10 text-center text-white/50">
-      <p>© <span id="year"></span> some_useless_person — Crafted with Tailwind CSS v3.4 and too much caffeine.</p>
-    </footer>
+  <!-- BACK TO TOP -->
+  <button id="topBtn" aria-label="Back to top" title="Back to top">
+    <i class="fa-solid fa-arrow-up text-[var(--muted)]"></i>
+  </button>
 
-    <script>
-      // Set current year
-      document.getElementById('year').textContent = new Date().getFullYear();
+  <script>
+    /* ===== Projects array (edit here to add/remove) ===== */
+    const projects = [
+      { title: 'Cognivue', href: 'https://moondip-konwar.github.io/Cognivue/', iconClass: 'fa-solid fa-brain', desc: 'Interactive front-end demo with visualizations and UX experiments.', tags: ['Vue','UX'] },
+      { title: 'Todo App', href: 'https://github.com/Moondip-Konwar/Todo-App', iconClass: 'fa-solid fa-list-check', desc: 'Reactive todo app with clean UI and simple state management.', tags: ['Vanilla','Productivity'] },
+      // add more projects here
+    ];
 
-      // Simple scroll reveal
-      const reveal = () => {
-        document.querySelectorAll('.glass, h2, article').forEach(el => {
-          const r = el.getBoundingClientRect();
-          if (r.top < window.innerHeight - 40) el.classList.add('animate-fadeInUp');
-        });
-      };
-      addEventListener('scroll', reveal, { passive: true });
-      addEventListener('load', reveal);
-    </script>
-  </body>
+    /* Render projects */
+    (function renderProjects(){
+      const host = document.querySelector('#projects .projects-grid');
+      if(!host) return;
+      host.innerHTML = '';
+      projects.forEach((p,i)=>{
+        const card = document.createElement('button');
+        card.className = 'project-card block rounded-xl p-4 text-left';
+        card.setAttribute('data-idx', i);
+
+        card.innerHTML = `
+          <div class="flex items-start gap-3">
+            <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-black/40 grid place-items-center">
+              <i class="${p.iconClass} fa-lg text-[var(--green)] icon-pulse"></i>
+            </div>
+            <div class="min-w-0">
+              <h3 class="text-lg font-semibold">${p.title}</h3>
+              <p class="text-sm text-[var(--muted)]">${p.desc}</p>
+              <div class="mt-3 flex flex-wrap gap-2">${(p.tags||[]).map(t=>`<span class="text-xs px-2 py-1 rounded-full bg-black/25 text-[var(--muted)]">${t}</span>`).join('')}</div>
+            </div>
+          </div>
+        `;
+
+        host.appendChild(card);
+        // reveal stagger
+        setTimeout(()=> card.classList.add('show'), 150 * i + 120);
+
+        // open modal on click
+        card.addEventListener('click', ()=> openModal(i));
+      });
+    })();
+
+    /* Modal logic */
+    const overlay = document.getElementById('overlay');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalTags = document.getElementById('modalTags');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalOpen = document.getElementById('modalOpen');
+    const modalClose = document.getElementById('modalClose');
+
+    function openModal(i){
+      const p = projects[i];
+      if(!p) return;
+      modalTitle.textContent = p.title;
+      modalDesc.textContent = p.desc;
+      modalIcon.className = p.iconClass + ' fa-lg';
+      modalTags.innerHTML = (p.tags||[]).map(t=>`<span class="text-xs px-2 py-1 rounded-full bg-black/25 text-[var(--muted)]">${t}</span>`).join('');
+      modalOpen.href = p.href;
+      overlay.classList.add('show');
+      overlay.setAttribute('aria-hidden','false');
+    }
+    function closeModal(){ overlay.classList.remove('show'); overlay.setAttribute('aria-hidden','true'); }
+    modalClose.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
+
+    // Smooth navigation function using scrollIntoView and offset
+    function smoothNavigateTo(selector){
+      const el = document.querySelector(selector);
+      if(!el) return;
+      // use scrollIntoView for smooth step then nudge for offset
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // after the scroll finishes roughly, nudge a bit to account for header offset
+      setTimeout(()=> window.scrollBy({ top: -22, behavior: 'smooth' }), 260);
+      // highlight
+      setTimeout(()=>{ el.classList.add('pulse-small'); setTimeout(()=> el.classList.remove('pulse-small'), 1100); }, 520);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href');
+        if(!href || href.length<2) return;
+        e.preventDefault();
+        smoothNavigateTo(href);
+      });
+    });
+
+    document.getElementById('btnProjects').addEventListener('click', (e)=>{ e.preventDefault(); smoothNavigateTo('#projects'); });
+
+    // IntersectionObserver: add/remove to allow replaying animations
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('show');
+          // special behavior: when skills visible, fill bars
+          if(entry.target.id === 'skills'){
+            document.querySelectorAll('.skill-fill').forEach(sf => { const v = sf.getAttribute('data-val') || 70; sf.style.width = v + '%'; });
+          }
+          // timeline items animate when parent visible
+          entry.target.querySelectorAll('.timeline-item').forEach(ti => ti.classList.add('show'));
+        } else {
+          // remove show so animations replay when re-entering viewport
+          entry.target.classList.remove('show');
+          // collapse skill bars to allow re-animation
+          if(entry.target.id === 'skills') document.querySelectorAll('.skill-fill').forEach(sf => sf.style.width = '0%');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.slide-left, .slide-right, .reveal').forEach(el => io.observe(el));
+    io.observe(document.getElementById('skills'));
+    document.querySelectorAll('#experience .timeline-item').forEach(el=> io.observe(el));
+
+    // periodically add tiny life to random project cards so page doesn't feel dead
+    setInterval(()=>{
+      const cards = Array.from(document.querySelectorAll('.project-card'));
+      if(!cards.length) return;
+      const idx = Math.floor(Math.random()*cards.length);
+      const el = cards[idx];
+      el.classList.add('card-float');
+      setTimeout(()=> el.classList.remove('card-float'), 1400 + Math.random()*900);
+    }, 4200 + Math.random()*2600);
+
+    // small random accent on mascot spark so it doesn't feel static
+    setInterval(()=>{
+      const spark = document.querySelector('.mascot-spark');
+      if(!spark) return;
+      spark.style.opacity = 1;
+      setTimeout(()=> spark.style.opacity = 0, 900 + Math.random()*800);
+    }, 4800 + Math.random()*2700);
+
+    // Rendered project cards were created earlier with reveal; give them repeatable animation too
+    // Back to top
+    const topBtn = document.getElementById('topBtn'); topBtn.addEventListener('click', ()=> window.scrollTo({ top:0, behavior:'smooth' }));
+
+    // mascot tilt (kept)
+    (function(){ const wrap = document.getElementById('mascotWrap'); if(!wrap) return; function onMove(e){ if(e.touches) e = e.touches[0]; const rect = wrap.getBoundingClientRect(); const x = (e.clientX - rect.left)/rect.width - 0.5; const y = (e.clientY - rect.top)/rect.height - 0.5; const rx = (y*6).toFixed(2); const ry = (x*-6).toFixed(2); wrap.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`; } function reset(){ wrap.style.transform = ''; } wrap.addEventListener('mousemove', onMove); wrap.addEventListener('mouseleave', reset); wrap.addEventListener('touchstart', ()=> wrap.animate([{ transform:'scale(1)' },{ transform:'scale(1.03)' },{ transform:'scale(1)' }], { duration:220 })); })();
+
+    // keyboard shortcuts
+    window.addEventListener('keydown', e=>{ if(e.key==='Escape') document.getElementById('overlay')?.classList.remove('show'); if(e.key==='t') window.scrollTo({ top:0, behavior:'smooth' }); });
+
+  </script>
+</body>
 </html>
