@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>some_useless_person — Portfolio</title>
+    <meta name="description" content="Portfolio of some_useless_person (Moondip Konwar): web dev, Godot, music, anime enjoyer." />
+
+    <!-- Tailwind CSS via CDN — v3.4.x -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Tailwind config: enable dark mode classes and custom colors
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              base: '#0a0b1e',
+              neonPink: '#ff3cac',
+              neonPurple: '#784ba0',
+              neonBlue: '#2b86c5',
+            },
+            dropShadow: {
+              neon: '0 0 0.35rem rgba(255,60,172,0.9), 0 0 0.8rem rgba(43,134,197,0.6)',
+            },
+            animation: {
+              float: 'float 6s ease-in-out infinite',
+              glow: 'glow 2s ease-in-out infinite',
+              fadeInUp: 'fadeInUp 700ms ease-out both',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-10px)' },
+              },
+              glow: {
+                '0%,100%': { filter: 'drop-shadow(0 0 0.25rem rgba(255,60,172,0.8))' },
+                '50%': { filter: 'drop-shadow(0 0 0.65rem rgba(43,134,197,0.9))' },
+              },
+              fadeInUp: {
+                '0%': { opacity: 0, transform: 'translateY(14px)' },
+                '100%': { opacity: 1, transform: 'translateY(0)' },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkfNf1s2kQjrISFRCGDpa2BkLomqKgJo0vvVuvyJYb0Z9fW5x1U9Q8Feg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      /* Force dark background even on light devices */
+      :root { color-scheme: dark; }
+      .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.06); }
+      .gradient-text {
+        background: linear-gradient(90deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .neon-border { box-shadow: 0 0 16px rgba(255,60,172,0.35), 0 0 32px rgba(43,134,197,0.25) inset; }
+    </style>
+  </head>
+  <body class="bg-base min-h-screen text-white selection:bg-fuchsia-500/30">
+    <!-- Decorative neon blobs -->
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10">
+      <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full blur-3xl opacity-40"
+           style="background: radial-gradient(closest-side, #ff3cac 30%, transparent)"></div>
+      <div class="absolute bottom-16 -right-20 h-80 w-80 rounded-full blur-3xl opacity-40"
+           style="background: radial-gradient(closest-side, #2b86c5 30%, transparent)"></div>
+      <div class="absolute top-1/3 right-1/3 h-40 w-40 rounded-full blur-2xl opacity-30"
+           style="background: radial-gradient(closest-side, #784ba0 30%, transparent)"></div>
+    </div>
+
+    <header class="container mx-auto px-6 py-6">
+      <nav class="flex items-center justify-between">
+        <a href="#" class="text-sm tracking-widest uppercase text-white/70 hover:text-white transition">Home</a>
+        <div class="flex gap-4 text-lg">
+          <a class="hover:drop-shadow-neon transition" href="#projects">Projects</a>
+          <a class="hover:drop-shadow-neon transition" href="#contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container mx-auto px-6 pt-2 pb-16">
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center min-h-[70vh]">
+        <!-- Left: Intro -->
+        <div class="space-y-6">
+          <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight gradient-text animate-fadeInUp">
+            some_useless_person
+          </h1>
+          <p class="text-lg sm:text-xl text-white/80 animate-fadeInUp [animation-delay:120ms]">
+            Turning coffee into code — and bugs into “undocumented features”.
+          </p>
+
+          <p class="max-w-prose text-white/70 animate-fadeInUp [animation-delay:220ms]">
+            I build on the web, compose music when the code compiles, and binge anime when it doesn’t. Godot game dabbler. MAL: <a class="underline hover:text-fuchsia-300" href="https://myanimelist.net/profile/HeHe269" target="_blank" rel="noreferrer">HeHe269</a>.
+          </p>
+
+          <!-- Skills -->
+          <div class="flex flex-wrap gap-3 animate-fadeInUp [animation-delay:320ms]">
+            <span class="glass px-3 py-1.5 rounded-full text-sm">Vue / Nuxt</span>
+            <span class="glass px-3 py-1.5 rounded-full text-sm">Godot (GDScript)</span>
+            <span class="glass px-3 py-1.5 rounded-full text-sm">Python</span>
+            <span class="glass px-3 py-1.5 rounded-full text-sm">Tailwind CSS</span>
+          </div>
+
+          <!-- CTAs -->
+          <div class="flex flex-wrap gap-4 pt-2 animate-fadeInUp [animation-delay:420ms]">
+            <a href="#projects" class="group inline-flex items-center gap-2 rounded-2xl px-5 py-3 font-semibold glass hover:drop-shadow-neon transition">
+              <i class="fa-solid fa-code"></i>
+              <span>See Projects</span>
+              <i class="fa-solid fa-arrow-right translate-x-0 group-hover:translate-x-1 transition"></i>
+            </a>
+            <a href="#contact" class="inline-flex items-center gap-2 rounded-2xl px-5 py-3 font-semibold border border-white/15 hover:border-white/30 hover:bg-white/5 transition">
+              <i class="fa-regular fa-paper-plane"></i>
+              <span>Contact</span>
+            </a>
+          </div>
+
+          <!-- Socials -->
+          <div class="flex items-center gap-5 pt-4 animate-fadeInUp [animation-delay:520ms]">
+            <a class="hover:drop-shadow-neon transition" href="https://github.com/moondip-konwar" target="_blank" rel="noreferrer" aria-label="GitHub"><i class="fa-brands fa-github fa-xl"></i></a>
+            <a class="hover:drop-shadow-neon transition" href="https://reddit.com/user/some_useless_person" target="_blank" rel="noreferrer" aria-label="Reddit"><i class="fa-brands fa-reddit-alien fa-xl"></i></a>
+            <a class="hover:drop-shadow-neon transition" href="https://myanimelist.net/profile/HeHe269" target="_blank" rel="noreferrer" aria-label="MyAnimeList"><i class="fa-solid fa-list fa-xl"></i></a>
+            <a class="hover:drop-shadow-neon transition" href="mailto:moondipkonwar9@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope fa-xl"></i></a>
+          </div>
+        </div>
+
+        <!-- Right: Mascot -->
+        <div class="relative order-first md:order-last">
+          <div class="relative mx-auto max-w-[360px] md:max-w-md animate-float">
+            <img src="assets/mascot.png" alt="Mascot" class="w-full h-auto rounded-3xl neon-border" />
+            <!-- glow ring -->
+            <div class="absolute -inset-3 rounded-3xl -z-10 opacity-40 blur-2xl"
+                 style="background: conic-gradient(from 90deg, rgba(255,60,172,0.5), rgba(120,75,160,0.5), rgba(43,134,197,0.5), rgba(255,60,172,0.5))"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Placeholder -->
+      <section id="projects" class="mt-16">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-6">Featured Projects</h2>
+        <p class="text-white/70 mb-6">Add these later. For now, enjoy the dramatic empty state — it screams “WIP but vibey”.</p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Example card (duplicate and edit later) -->
+          <article class="group glass rounded-2xl p-5 transition hover:drop-shadow-neon">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-semibold">Your Project</h3>
+              <i class="fa-solid fa-wand-magic-sparkles opacity-60 group-hover:opacity-100 transition"></i>
+            </div>
+            <p class="text-white/70 text-sm">Short description goes here. Replace me with something brag-worthy.</p>
+            <a class="inline-flex items-center gap-2 mt-4 text-sm opacity-80 hover:opacity-100" href="#" target="_blank" rel="noreferrer">
+              <span>Open</span>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </article>
+          <!-- /Example -->
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="mt-20">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-6">Contact</h2>
+        <div class="glass rounded-2xl p-6">
+          <p class="text-white/80">Email me at <a class="underline hover:text-fuchsia-300" href="mailto:moondipkonwar9@gmail.com">moondipkonwar9@gmail.com</a> — or stalk me on the links above like a civilized internet gremlin.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container mx-auto px-6 py-10 text-center text-white/50">
+      <p>© <span id="year"></span> some_useless_person — Crafted with Tailwind CSS v3.4 and too much caffeine.</p>
+    </footer>
+
+    <script>
+      // Set current year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Simple scroll reveal
+      const reveal = () => {
+        document.querySelectorAll('.glass, h2, article').forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (r.top < window.innerHeight - 40) el.classList.add('animate-fadeInUp');
+        });
+      };
+      addEventListener('scroll', reveal, { passive: true });
+      addEventListener('load', reveal);
+    </script>
+  </body>
+</html>
