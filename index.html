@@ -18,240 +18,263 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* stronger saturation, brighter accents, darker backgrounds */
     :root{
       --bg-1: #000000;      /* pure black */
-      --bg-2: #030608;      /* near-black */
-      --muted: #e6f8ea;     /* lighter muted for better contrast */
-      --green: #28ff7a;     /* brighter green accent */
+      --bg-2: #020306;      /* near-black */
+      --muted: #f0fff4;     /* bright muted for contrast */
+      --green: #22ff7a;     /* vivid green accent */
       --glass: rgba(255,255,255,0.015);
     }
 
     html{ scroll-behavior: smooth; }
+    body{ background: linear-gradient(180deg,var(--bg-1),var(--bg-2)); color: var(--muted); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
 
-    /* darker, slightly more saturated moving bg */
-    body::before{
-      content:''; position:fixed; inset:0; z-index:-2;
-      background:
-        radial-gradient(1200px 900px at 6% 16%, rgba(40,255,120,0.08), transparent 6%),
-        radial-gradient(1000px 600px at 92% 84%, rgba(4,6,3,0.14), transparent 10%);
-      animation: bgMove 18s linear infinite;
-      mix-blend-mode: screen; opacity:1; filter: saturate(132%) contrast(106%);
-    }
+    /* moving background */
+    body::before{ content:''; position:fixed; inset:0; z-index:-2; background: radial-gradient(1200px 900px at 6% 16%, rgba(34,255,120,0.08), transparent 6%), radial-gradient(1000px 600px at 92% 84%, rgba(2,4,3,0.14), transparent 10%); animation: bgMove 18s linear infinite; mix-blend-mode: screen; opacity:1; filter: saturate(140%) contrast(108%); }
     @keyframes bgMove{ 0%{ transform: translateY(0) } 50%{ transform: translateY(-28px) } 100%{ transform: translateY(0) } }
 
-    body{ background: linear-gradient(180deg,var(--bg-1),var(--bg-2)); color: #f4fff6; }
+    /* NAVBAR (responsive) */
+    header.site-nav{ position:sticky; top:12px; z-index:60; }
+    .nav-inner{ display:flex; gap:12px; align-items:center; justify-content:space-between; background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:10px 14px; border-radius:12px; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.04); }
+    .brand{ display:flex; gap:12px; align-items:center; }
+    .brand .logo{ width:44px; height:44px; border-radius:10px; display:grid; place-items:center; background: linear-gradient(180deg, rgba(34,255,120,0.12), rgba(255,255,255,0.02)); box-shadow: 0 6px 20px rgba(34,255,120,0.04); }
 
-    .neon-green{ color:var(--green); text-shadow: 0 0 14px rgba(40,255,120,0.16), 0 0 36px rgba(40,255,120,0.04); }
+    /* desktop links */
+    .nav-links{ display:flex; gap:10px; align-items:center; }
+    .nav-links a{ color:var(--muted); text-decoration:none; padding:8px 10px; border-radius:8px; position:relative; }
+    .nav-links a::after{ content:''; position:absolute; left:10%; right:10%; bottom:6px; height:2px; background:transparent; transition: all .28s ease; border-radius:2px; }
+    .nav-links a:hover{ transform: translateY(-2px); }
+    .nav-links a:hover::after{ background: linear-gradient(90deg, rgba(34,255,120,0.9), rgba(34,255,120,0.5)); left:8%; right:8%; }
 
-    /* entrance / reveal animations (replayable) */
+    /* mobile toggle button */
+    .mobile-toggle{ display:none; background:transparent; border:0; color:var(--muted); padding:8px; border-radius:8px; }
+    .mobile-toggle:focus{ outline:3px solid rgba(34,255,120,0.14); }
+
+    /* mobile menu (hidden by default) */
+    .mobile-menu{ display:none; position:absolute; left:12px; right:12px; top:72px; background: linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.85)); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.04); box-shadow:0 18px 48px rgba(0,0,0,0.6); }
+    .mobile-menu.show{ display:block; animation: slideDown .28s cubic-bezier(.16,.9,.2,1); }
+    @keyframes slideDown{ from{ transform: translateY(-8px); opacity:0 } to{ transform:none; opacity:1 } }
+
+    /* page shell */
+    .page-wrap{ padding:22px; }
+    .card{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); border-radius:14px; padding:18px; }
+
+    /* header hero grid (mascot next to name) */
+    .hero{ display:grid; gap:18px; }
+    @media(min-width:1100px){ .hero{ grid-template-columns: 1fr 320px; align-items:start; } }
+    @media(max-width:1099px){ .hero{ grid-template-columns: 1fr; } }
+
+    .neon-green{ color:var(--green); text-shadow: 0 0 14px rgba(34,255,120,0.14), 0 0 36px rgba(34,255,120,0.03); }
+
+    /* reveal animations replayable */
     .reveal{ opacity:0; transform: translateY(8px); transition: transform .7s cubic-bezier(.16,.9,.2,1), opacity .56s ease; }
     .reveal.show{ opacity:1; transform:none; }
 
-    .slide-left{ opacity:0; transform:translateX(-22px) rotate(-0.4deg); transition: transform .7s cubic-bezier(.16,.9,.2,1), opacity .6s ease; }
-    .slide-right{ opacity:0; transform:translateX(22px) rotate(0.4deg); transition: transform .7s cubic-bezier(.16,.9,.2,1), opacity .6s ease; }
-    .slide-left.show, .slide-right.show{ transform:none; opacity:1; }
+    /* mascot */
+    #mascotWrap{ width:160px; height:160px; border-radius:999px; padding:6px; border:4px solid rgba(34,255,120,0.14); background: linear-gradient(180deg, rgba(0,0,0,0.25), transparent); backdrop-filter: blur(6px); position:relative; }
+    @media(min-width:1400px){ #mascotWrap{ width:200px; height:200px; } }
+    #mascotWrap img{ width:100%; height:100%; object-fit:cover; border-radius:999px; display:block; }
+    .mascot-spark{ position:absolute; right:-8px; top:-8px; width:12px; height:12px; border-radius:50%; background: radial-gradient(circle, rgba(34,255,120,0.95), rgba(34,255,120,0.25)); opacity:0; pointer-events:none; }
 
-    /* subtle live animations so page never feels static */
-    .slow-sway{ animation: sway 8s ease-in-out infinite; }
-    @keyframes sway{ 0%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } 100%{ transform: translateY(0) } }
+    /* skills grid */
+    .skills-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap:12px; }
+    @media(min-width:700px){ .skills-grid{ grid-template-columns: repeat(4,1fr); } }
+    .skill-card{ padding:12px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); border:1px solid rgba(255,255,255,0.03); text-align:center; }
+    .skill-name{ margin-top:8px; font-weight:600; color:var(--muted); }
 
-    .pulse-small{ animation: smallPulse 3.4s ease-in-out infinite; }
-    @keyframes smallPulse{ 0%{ transform: scale(1) } 50%{ transform: scale(1.01) } 100%{ transform: scale(1) } }
+    /* projects */
+    .projects-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:12px; margin-top:12px; }
+    .project-card{ transition: transform .28s, box-shadow .28s, border-color .2s; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.04); border-radius:12px; padding:14px; }
+    .project-card:hover{ transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 6px 20px rgba(34,255,120,0.06); border-color: rgba(34,255,120,0.18); }
 
-    /* mascot idle sparkle */
-    .mascot-spark{ position:absolute; inset:auto; right:-6px; top:-6px; width:10px; height:10px; border-radius:50%; background: radial-gradient(circle, rgba(40,255,120,0.9), rgba(40,255,120,0.2)); opacity:0; pointer-events:none; animation: spark 5s linear infinite; }
-    @keyframes spark{ 0%{ opacity:0; transform:scale(.6) } 5%{ opacity:1 } 20%{ opacity:0; transform:scale(1.6) } 100%{ opacity:0 } }
+    /* showcase (replacement for playground) */
+    .showcase-grid{ display:grid; grid-template-columns: 1fr; gap:12px; }
+    @media(min-width:900px){ .showcase-grid{ grid-template-columns: repeat(3,1fr); } }
+    .showcase-card{ border-radius:12px; padding:14px; border:1px solid rgba(255,255,255,0.04); background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.12)); }
 
-    /* project card liveliness */
-    .project-card{ transition: transform .28s, box-shadow .28s, border-color .2s; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.04); backdrop-filter: blur(10px) saturate(140%); }
-    .project-card:hover{ transform: translateY(-10px) scale(1.02); box-shadow: 0 28px 70px rgba(0,0,0,0.75), 0 8px 24px rgba(40,255,120,0.06); border-color: rgba(40,255,120,0.25); }
-    .card-float{ animation: cardFloat 7.4s ease-in-out infinite; }
-    @keyframes cardFloat{ 0%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } 100%{ transform: translateY(0) } }
+    /* small helpers */
+    .dot{ width:10px; height:10px; border-radius:50%; background:var(--green); box-shadow:0 6px 18px rgba(34,255,120,0.06); display:inline-block; vertical-align:middle; }
+    .muted{ color:var(--muted); opacity:0.9; }
 
-    /* modal tweaks */
-    .overlay{ position:fixed; inset:0; display:grid; place-items:center; background:rgba(0,0,0,0.7); z-index:70; opacity:0; pointer-events:none; transition: opacity .28s ease; }
-    .overlay.show{ opacity:1; pointer-events:auto; }
-    .modal{ width:min(920px,94%); border-radius:12px; padding:22px; background:linear-gradient(180deg, rgba(10,12,10,0.98), rgba(2,4,3,0.99)); border:1px solid rgba(255,255,255,0.04); transform: translateY(12px) scale(.995); transition: transform .36s cubic-bezier(.16,.9,.2,1); }
-    .overlay.show .modal{ transform:none; }
+    /* focus */
+    a:focus{ outline:3px solid rgba(34,255,120,0.18); outline-offset:4px; }
 
-    /* skills bars */
-    .skill-bar{ height:12px; background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border-radius:999px; overflow:hidden; }
-    .skill-fill{ height:100%; width:0%; border-radius:999px; transition: width 900ms cubic-bezier(.2,.9,.2,1); background: linear-gradient(90deg, rgba(40,255,120,0.98), rgba(40,255,120,0.6)); box-shadow:0 8px 26px rgba(40,255,120,0.06); }
-
-    /* timeline */
-    .timeline-item{ opacity:0; transform:translateY(12px); transition: all .6s cubic-bezier(.2,.9,.2,1); }
-    .timeline-item.show{ opacity:1; transform:none; }
-
-    /* back to top */
-    #topBtn{ position:fixed; right:18px; bottom:18px; z-index:60; display:grid; place-items:center; width:48px; height:48px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.04); cursor:pointer; }
-    #topBtn:hover{ transform: translateY(-4px); box-shadow: 0 14px 34px rgba(0,0,0,0.6); }
-
-    /* layout tweak: don't leave massive empty column space under mascot on laptop */
-    @media(min-width:1100px){ .layout-grid{ grid-template-columns: 1fr minmax(220px, 380px); } aside{ align-self:center; } }
-    @media(min-width:1400px){ .layout-grid{ grid-template-columns: 1fr minmax(260px, 420px); } aside{ align-self:start; position:sticky; top:80px; } }
-    @media(max-width:1099px){ .layout-grid{ grid-template-columns: 1fr; } aside{ order:-1; } #mascotWrap{ margin:0 auto 8px } }
-
-    .projects-grid{ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; }
-
-    /* micro ripple effect for buttons */
-    .ripple{ position:relative; overflow:hidden; }
-    .ripple::after{ content:''; position:absolute; width:120%; height:120%; left:-10%; top:-10%; background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,0.06), transparent 20%); opacity:0; transition: opacity .4s; pointer-events:none; }
-    .ripple:active::after{ opacity:1; transition:none; }
-
-    a:focus{ outline:3px solid rgba(40,255,120,0.2); outline-offset:4px; }
-
+    /* MOBILE BREAKPOINTS */
+    @media(max-width:768px){
+      .nav-links{ display:none; }
+      .mobile-toggle{ display:inline-flex; }
+      .nav-inner{ position:relative; }
+      .mobile-menu{ left:12px; right:12px; top:64px; }
+      .brand .logo{ width:40px; height:40px; }
+    }
   </style>
 </head>
 <body class="antialiased">
 
-  <main class="min-h-screen flex items-start justify-center p-6">
-    <section id="page" class="w-full max-w-7xl rounded-2xl p-6 lg:p-10 layout-grid grid gap-6" style="background:var(--glass); border:1px solid rgba(255,255,255,0.03); backdrop-filter: blur(12px);">
-
-      <!-- LEFT: Main content -->
-      <div class="space-y-8 pr-2 lg:pr-10">
-        <!-- HERO -->
-        <header class="flex flex-col gap-3 slide-left" data-i="0">
-          <div class="flex items-center gap-4">
-            <div>
-              <h1 class="text-5xl md:text-6xl font-extrabold neon-green tracking-tight">Moondip Konwar</h1>
-              <div class="mt-2 text-[var(--muted)] flex items-center gap-3">
-                <span>@some_useless_person</span>
-                <span class="px-2 py-1 rounded-full bg-black/25 text-xs">Vue • Nuxt • Godot • Python • Linux</span>
-              </div>
-            </div>
-          </div>
-
-          <p class="mt-4 text-[var(--muted)] max-w-prose slide-right" data-i="1">I build interactive front-ends with <strong class="neon-green">Vue/Nuxt</strong>, make games with <strong class="neon-green">Godot (GDScript)</strong>, write Python tools and live in Linux terminals. This portfolio is a living thing — it grows when I procrastinate less.</p>
-
-          <div class="flex gap-3 mt-4">
-            <a id="btnProjects" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/30 hover:bg-black/40 ripple" href="#projects">View Projects <i class="fa-solid fa-arrow-right ml-1 text-[var(--green)]"></i></a>
-            <a class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/30 hover:bg-black/40 ripple" href="#contact">Get in touch <i class="fa-solid fa-envelope ml-1 text-[var(--green)]"></i></a>
-          </div>
-        </header>
-
-        <!-- ABOUT -->
-        <section id="about" class="rounded-xl p-6 bg-black/20 border border-white/6 slide-right" data-i="2">
-          <h2 class="text-2xl font-semibold neon-green">About Me</h2>
-          <p class="mt-3 text-[var(--muted)]">I enjoy turning brittle ideas into durable code. On any given week I'm juggling a Nuxt SSR build, a Godot prototype, and a small Python script to automate the things I should've automated days ago. I like clean UI, deterministic behavior, and terminal-based rituals.</p>
-
-          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <h3 class="text-lg font-semibold neon-green">Focus</h3>
-              <ul class="mt-2 text-[var(--muted)] list-disc list-inside">
-                <li>Web apps with Vue & Nuxt</li>
-                <li>2D game prototypes in Godot (GDScript)</li>
-                <li>Python tooling & automation</li>
-              </ul>
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold neon-green">Interests</h3>
-              <p class="mt-2 text-[var(--muted)]">Open-source, efficient workflows, retro game mechanics, Linux customizations, and music (piano & guitar). I also rate a suspicious number of anime on MAL.</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- SKILLS -->
-        <section id="skills" class="rounded-xl p-6 bg-black/15 border border-white/6 slide-left" data-i="3">
-          <h2 class="text-2xl font-semibold neon-green">Skills</h2>
-          <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div class="p-3 rounded-md bg-black/25 text-center">
-              <i class="fa-brands fa-vuejs fa-2x text-[var(--green)]"></i>
-              <div class="mt-2 text-[var(--muted)]">Vue / Nuxt</div>
-              <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="88"></div></div>
-            </div>
-            <div class="p-3 rounded-md bg-black/25 text-center">
-              <i class="fa-brands fa-python fa-2x text-[var(--green)]"></i>
-              <div class="mt-2 text-[var(--muted)]">Python</div>
-              <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="82"></div></div>
-            </div>
-            <div class="p-3 rounded-md bg-black/25 text-center">
-              <i class="fa-brands fa-linux fa-2x text-[var(--green)]"></i>
-              <div class="mt-2 text-[var(--muted)]">Linux</div>
-              <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="94"></div></div>
-            </div>
-            <div class="p-3 rounded-md bg-black/25 text-center">
-              <i class="fa-solid fa-gamepad fa-2x text-[var(--green)]"></i>
-              <div class="mt-2 text-[var(--muted)]">Godot / GDScript</div>
-              <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="78"></div></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- EXPERIENCE / TIMELINE -->
-        <section id="experience" class="rounded-xl p-6 bg-black/12 border border-white/6 slide-right" data-i="4">
-          <h2 class="text-2xl font-semibold neon-green">Experience & Projects Timeline</h2>
-          <div class="mt-6 space-y-6 timeline">
-            <div class="pl-6 timeline-item">
-              <div class="text-sm text-[var(--muted)]">2024 — Present</div>
-              <div class="mt-1 font-semibold">Freelance Web & Game Dev</div>
-              <p class="mt-2 text-[var(--muted)]">Building small to medium sized Vue/Nuxt projects and indie game prototypes in Godot. Focused on performance and tight UX.</p>
-            </div>
-
-            <div class="pl-6 timeline-item">
-              <div class="text-sm text-[var(--muted)]">2023</div>
-              <div class="mt-1 font-semibold">Cognivue</div>
-              <p class="mt-2 text-[var(--muted)]">A front-end demo exploring visual interaction patterns (link in Projects).</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- PROJECTS (data-driven) -->
-        <section id="projects" class="rounded-xl p-6 bg-black/10 border border-white/6 slide-left" data-i="5">
-          <div class="flex items-center justify-between">
-            <h2 class="text-2xl font-semibold neon-green">Projects</h2>
-            <div class="text-sm text-[var(--muted)]">(projects loaded via JS)</div>
-          </div>
-          <div class="mt-4 grid projects-grid" aria-live="polite">
-            <!-- injected cards -->
-          </div>
-        </section>
-
-        <!-- CONTACT -->
-        <section id="contact" class="rounded-xl p-6 bg-black/15 border border-white/6 slide-right" data-i="6">
-          <h2 class="text-2xl font-semibold neon-green">Contact</h2>
-          <p class="mt-3 text-[var(--muted)]">Hit me up on MAL, reddit or email. I respond to reasonable bribes and properly formatted pull requests.</p>
-
-          <div class="mt-4 flex flex-wrap gap-3">
-            <a class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/30 hover:bg-black/40 ripple" href="mailto:moondip@example.com"><i class="fa-solid fa-envelope text-[var(--green)]"></i> Email</a>
-            <a class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/30 hover:bg-black/40 ripple" href="https://myanimelist.net/profile/HeHe269" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-star text-[var(--green)]"></i> MAL (HeHe269)</a>
-            <a class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/30 hover:bg-black/40 ripple" href="https://reddit.com/user/some_useless_person" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-reddit text-[var(--green)]"></i> reddit (@some_useless_person)</a>
-          </div>
-        </section>
-
-        <!-- FOOTER -->
-        <footer class="pt-8 text-sm text-[var(--muted)] slide-left" data-i="7">
-          <div class="flex items-center gap-3">
-            <span>Made with ☕ and excessive stubbornness.</span>
-            <span class="ml-auto">© Moondip Konwar</span>
-          </div>
-        </footer>
+  <!-- NAVBAR -->
+  <header class="site-nav page-wrap">
+    <div class="nav-inner card">
+      <div class="brand">
+        <div class="logo neon-green"><i class="fa-solid fa-terminal"></i></div>
+        <div>
+          <div class="text-sm muted">Moondip Konwar</div>
+          <div class="text-xs muted">@some_useless_person</div>
+        </div>
       </div>
 
-      <!-- RIGHT: Mascot column (kept static in its column to avoid overlap) -->
-      <aside class="flex items-center justify-center lg:sticky lg:top-24">
-        <div id="mascotWrap" class="tilt floaty w-56 h-56 lg:w-72 lg:h-72 rounded-full ring-4 ring-[var(--green)] p-1 bg-gradient-to-br from-black/20 to-transparent" style="backdrop-filter: blur(6px); position:relative;">
-          <img src="assets/mascot.jpeg" alt="Mascot" class="w-full h-full object-cover rounded-full" />
+      <!-- Desktop links -->
+      <nav class="nav-links" role="navigation" aria-label="main navigation">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#showcase">Showcase</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <!-- Mobile toggle -->
+      <button id="navToggle" class="mobile-toggle" aria-expanded="false" aria-controls="mobileMenu" title="Open menu">
+        <i class="fa-solid fa-bars fa-lg"></i>
+      </button>
+    </div>
+
+    <!-- Mobile menu (collapsible) -->
+    <div id="mobileMenu" class="mobile-menu" role="menu" aria-hidden="true">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <a href="#about" role="menuitem">About</a>
+        <a href="#skills" role="menuitem">Skills</a>
+        <a href="#projects" role="menuitem">Projects</a>
+        <a href="#showcase" role="menuitem">Showcase</a>
+        <a href="#contact" role="menuitem">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-wrap max-w-7xl mx-auto">
+    <section class="card hero reveal" id="hero">
+      <div class="hero-left">
+        <h1 class="text-5xl md:text-6xl font-extrabold neon-green">Moondip Konwar</h1>
+        <div class="mt-2 text-sm muted flex items-center gap-3">
+          <span>@some_useless_person</span>
+          <span class="px-2 py-1 rounded-full bg-black/25 text-xs">Vue • Nuxt • Godot • Python • Linux</span>
+        </div>
+
+        <p class="mt-4 muted">I build interactive front-ends with <strong class="neon-green">Vue/Nuxt</strong>, craft games in <strong class="neon-green">Godot</strong>, and write Python & MicroPython tools. I like clean UI, deterministic behavior, and terminal-based rituals.</p>
+
+        <div class="mt-6 flex gap-3">
+          <a id="btnProjects2" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/25 hover:bg-black/35" href="#projects">View Projects <i class="fa-solid fa-arrow-right ml-1 neon-green"></i></a>
+          <a class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/25 hover:bg-black/35" href="#showcase">Showcase <i class="fa-solid fa-star ml-1 neon-green"></i></a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div id="mascotWrap" class="reveal" aria-hidden>
+          <img src="assets/mascot.jpeg" alt="Mascot" />
           <div class="mascot-spark" aria-hidden></div>
         </div>
-      </aside>
-
+      </div>
     </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="card mt-6 reveal">
+      <h2 class="text-2xl neon-green">About Me</h2>
+      <p class="mt-3 muted">Turning brittle ideas into durable code. Juggling Nuxt SSR, Godot prototypes, and tiny Python automations that save 2 minutes a week. I also rate too much anime on MAL.</p>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="card mt-6 reveal">
+      <h2 class="text-2xl neon-green">Skills</h2>
+      <div class="mt-4 skills-grid">
+        <div class="skill-card">
+          <i class="fa-brands fa-vuejs fa-2x neon-green"></i>
+          <div class="skill-name">Vue / Nuxt</div>
+          <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="80"></div></div>
+        </div>
+        <div class="skill-card">
+          <i class="fa-brands fa-python fa-2x neon-green"></i>
+          <div class="skill-name">Python</div>
+          <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="80"></div></div>
+        </div>
+        <div class="skill-card">
+          <i class="fa-solid fa-gamepad fa-2x neon-green"></i>
+          <div class="skill-name">Godot / GDScript</div>
+          <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="90"></div></div>
+        </div>
+        <div class="skill-card">
+          <i class="fa-brands fa-linux fa-2x neon-green"></i>
+          <div class="skill-name">Linux / Bash</div>
+          <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="40"></div></div>
+        </div>
+        <div class="skill-card">
+          <i class="fa-solid fa-music fa-2x neon-green"></i>
+          <div class="skill-name">Piano / Music</div>
+          <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="90"></div></div>
+        </div>
+        <div class="skill-card">
+          <i class="fa-solid fa-code fa-2x neon-green"></i>
+          <div class="skill-name">C / C++</div>
+          <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="60"></div></div>
+        </div>
+        <div class="skill-card">
+          <i class="fa-brands fa-python fa-2x neon-green"></i>
+          <div class="skill-name">MicroPython</div>
+          <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="70"></div></div>
+        </div>
+        <div class="skill-card">
+          <i class="fa-solid fa-terminal fa-2x neon-green"></i>
+          <div class="skill-name">Dev Tools</div>
+          <div class="mt-3 skill-bar" aria-hidden><div class="skill-fill" data-val="72"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOWCASE (replaces playground; easy to maintain static cards driven by showcase array) -->
+    <section id="showcase" class="card mt-6 reveal">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl neon-green">Showcase</h2>
+        <div class="muted text-sm">Tight, editable highlights — low maintenance</div>
+      </div>
+
+      <div class="mt-4 showcase-grid" id="showcaseGrid">
+        <!-- injected showcase cards -->
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="card mt-6 reveal">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl neon-green">Projects</h2>
+        <div class="muted text-sm">(projects loaded via JS)</div>
+      </div>
+      <div class="projects-grid mt-4" aria-live="polite"></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="card mt-6 reveal">
+      <h2 class="text-2xl neon-green">Contact</h2>
+      <p class="muted mt-2">Ping me on MAL, reddit or by email. I respond to pull requests faster than messages.</p>
+      <div class="mt-4 flex gap-3">
+        <a class="px-3 py-2 rounded-md bg-black/20" href="mailto:moondip@example.com"><i class="fa-solid fa-envelope neon-green"></i> Email</a>
+        <a class="px-3 py-2 rounded-md bg-black/20" href="https://myanimelist.net/profile/HeHe269" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-star neon-green"></i> MAL</a>
+        <a class="px-3 py-2 rounded-md bg-black/20" href="https://reddit.com/user/some_useless_person" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-reddit neon-green"></i> reddit</a>
+      </div>
+    </section>
+
+    <footer class="mt-8 muted text-sm">Made with ☕ and excessive stubbornness. © Moondip Konwar</footer>
   </main>
 
   <!-- overlay modal for project preview -->
   <div id="overlay" class="overlay" aria-hidden>
-    <div class="modal">
+    <div class="modal card">
       <div class="flex items-start gap-4">
         <div class="w-16 h-16 rounded-lg bg-black/30 grid place-items-center">
-          <i id="modalIcon" class="fa-lg text-[var(--green)]"></i>
+          <i id="modalIcon" class="fa-lg neon-green"></i>
         </div>
         <div class="min-w-0">
           <h3 id="modalTitle" class="text-xl font-semibold neon-green"></h3>
-          <p id="modalDesc" class="text-[var(--muted)] mt-2"></p>
+          <p id="modalDesc" class="muted mt-2"></p>
           <div id="modalTags" class="mt-3 flex flex-wrap gap-2"></div>
           <div class="mt-4 flex gap-3">
-            <a id="modalOpen" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/25 hover:bg-black/35" href="#">Open Project <i class="fa-solid fa-arrow-up-right-from-square text-[var(--green)]"></i></a>
+            <a id="modalOpen" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/25 hover:bg-black/35" href="#">Open Project <i class="fa-solid fa-arrow-up-right-from-square neon-green"></i></a>
             <button id="modalClose" class="px-3 py-2 rounded-md bg-black/20">Close</button>
           </div>
         </div>
@@ -259,150 +282,73 @@
     </div>
   </div>
 
-  <!-- BACK TO TOP -->
-  <button id="topBtn" aria-label="Back to top" title="Back to top">
-    <i class="fa-solid fa-arrow-up text-[var(--muted)]"></i>
-  </button>
+  <!-- TOAST (tiny) -->
+  <div id="toast" style="position:fixed;right:18px;bottom:86px;z-index:80;display:none;padding:10px 12px;background:rgba(0,0,0,0.6);border-radius:8px;border:1px solid rgba(255,255,255,0.04);">Done</div>
 
   <script>
     /* ===== Projects array (edit here to add/remove) ===== */
     const projects = [
       { title: 'Cognivue', href: 'https://moondip-konwar.github.io/Cognivue/', iconClass: 'fa-solid fa-brain', desc: 'Interactive front-end demo with visualizations and UX experiments.', tags: ['Vue','UX'] },
       { title: 'Todo App', href: 'https://github.com/Moondip-Konwar/Todo-App', iconClass: 'fa-solid fa-list-check', desc: 'Reactive todo app with clean UI and simple state management.', tags: ['Vanilla','Productivity'] },
-      // add more projects here
     ];
 
-    /* Render projects */
+    /* ===== Showcase array (easy to maintain) ===== */
+    const showcase = [
+      { title: 'Cognivue (Highlight)', desc: 'A focused demo exploring interactive UI patterns and micro-animations.', link: 'https://moondip-konwar.github.io/Cognivue/', tags: ['Vue','UI'] },
+      { title: 'Todo App (Case)', desc: 'Simple reactive todo app that demonstrates state management and design restraint.', link: 'https://github.com/Moondip-Konwar/Todo-App', tags: ['Vanilla','Design'] },
+      { title: 'MicroPython LED', desc: 'ESP32/ESP8266 MicroPython script for addressable LED effects — quick hack, huge satisfaction.', link: '#', tags: ['MicroPython','Hardware'] }
+    ];
+
+    /* render projects into .projects-grid */
     (function renderProjects(){
-      const host = document.querySelector('#projects .projects-grid');
-      if(!host) return;
-      host.innerHTML = '';
+      const host = document.querySelector('.projects-grid'); if(!host) return; host.innerHTML = '';
       projects.forEach((p,i)=>{
-        const card = document.createElement('button');
-        card.className = 'project-card block rounded-xl p-4 text-left';
-        card.setAttribute('data-idx', i);
+        const a = document.createElement('button'); a.className = 'project-card reveal'; a.type='button';
+        a.innerHTML = `<div class="flex items-start gap-3"><div class="w-12 h-12 rounded-lg bg-black/30 grid place-items-center"><i class="${p.iconClass} fa-lg neon-green"></i></div><div class="min-w-0"><h3 class="font-semibold">${p.title}</h3><p class="muted text-sm mt-1">${p.desc}</p></div></div>`;
+        a.addEventListener('click', ()=> openModal(i)); host.appendChild(a); setTimeout(()=> a.classList.add('show'), 120*i+80);
+      });
+    })();
 
-        card.innerHTML = `
-          <div class="flex items-start gap-3">
-            <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-black/40 grid place-items-center">
-              <i class="${p.iconClass} fa-lg text-[var(--green)] icon-pulse"></i>
-            </div>
-            <div class="min-w-0">
-              <h3 class="text-lg font-semibold">${p.title}</h3>
-              <p class="text-sm text-[var(--muted)]">${p.desc}</p>
-              <div class="mt-3 flex flex-wrap gap-2">${(p.tags||[]).map(t=>`<span class="text-xs px-2 py-1 rounded-full bg-black/25 text-[var(--muted)]">${t}</span>`).join('')}</div>
-            </div>
-          </div>
-        `;
-
-        host.appendChild(card);
-        // reveal stagger
-        setTimeout(()=> card.classList.add('show'), 150 * i + 120);
-
-        // open modal on click
-        card.addEventListener('click', ()=> openModal(i));
+    /* render showcase cards */
+    (function renderShowcase(){
+      const host = document.getElementById('showcaseGrid'); if(!host) return; host.innerHTML = '';
+      showcase.forEach((s,i)=>{
+        const d = document.createElement('div'); d.className = 'showcase-card reveal';
+        d.innerHTML = `<h3 class="font-semibold neon-green">${s.title}</h3><p class="muted mt-2">${s.desc}</p><div class="mt-3 flex gap-2">${(s.tags||[]).map(t=>`<span class=\"px-2 py-1 rounded-full bg-black/20 muted\">${t}</span>`).join('')}</div><div class=\"mt-3\"><a href=\"${s.link}\" class=\"px-3 py-1 rounded-md bg-black/20\">Open</a></div>`;
+        host.appendChild(d); setTimeout(()=> d.classList.add('show'), 140*i+100);
       });
     })();
 
     /* Modal logic */
-    const overlay = document.getElementById('overlay');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalTags = document.getElementById('modalTags');
-    const modalIcon = document.getElementById('modalIcon');
-    const modalOpen = document.getElementById('modalOpen');
-    const modalClose = document.getElementById('modalClose');
-
-    function openModal(i){
-      const p = projects[i];
-      if(!p) return;
-      modalTitle.textContent = p.title;
-      modalDesc.textContent = p.desc;
-      modalIcon.className = p.iconClass + ' fa-lg';
-      modalTags.innerHTML = (p.tags||[]).map(t=>`<span class="text-xs px-2 py-1 rounded-full bg-black/25 text-[var(--muted)]">${t}</span>`).join('');
-      modalOpen.href = p.href;
-      overlay.classList.add('show');
-      overlay.setAttribute('aria-hidden','false');
-    }
+    const overlay = document.getElementById('overlay'); const modalTitle = document.getElementById('modalTitle'); const modalDesc = document.getElementById('modalDesc'); const modalTags = document.getElementById('modalTags'); const modalIcon = document.getElementById('modalIcon'); const modalOpen = document.getElementById('modalOpen'); const modalClose = document.getElementById('modalClose');
+    function openModal(i){ const p = projects[i]; if(!p) return; modalTitle.textContent = p.title; modalDesc.textContent = p.desc; modalIcon.className = p.iconClass + ' fa-lg'; modalTags.innerHTML = (p.tags||[]).map(t=>`<span class=\"text-xs px-2 py-1 rounded-full bg-black/25 muted\">${t}</span>`).join(' '); modalOpen.href = p.href; overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false'); }
     function closeModal(){ overlay.classList.remove('show'); overlay.setAttribute('aria-hidden','true'); }
-    modalClose.addEventListener('click', closeModal);
-    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
+    modalClose.addEventListener('click', closeModal); overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
 
-    // Smooth navigation function using scrollIntoView and offset
-    function smoothNavigateTo(selector){
-      const el = document.querySelector(selector);
-      if(!el) return;
-      // use scrollIntoView for smooth step then nudge for offset
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // after the scroll finishes roughly, nudge a bit to account for header offset
-      setTimeout(()=> window.scrollBy({ top: -22, behavior: 'smooth' }), 260);
-      // highlight
-      setTimeout(()=>{ el.classList.add('pulse-small'); setTimeout(()=> el.classList.remove('pulse-small'), 1100); }, 520);
-    }
+    // hero buttons
+    document.getElementById('btnProjects2').addEventListener('click', (e)=>{ e.preventDefault(); document.querySelector('#projects').scrollIntoView({behavior:'smooth', block:'start'}); setTimeout(()=> window.scrollBy({top:-22, behavior:'smooth'}), 220); setTimeout(()=> document.querySelector('#projects').classList.add('pulse-small'), 520); setTimeout(()=> document.querySelector('#projects').classList.remove('pulse-small'), 1620); });
 
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        const href = a.getAttribute('href');
-        if(!href || href.length<2) return;
-        e.preventDefault();
-        smoothNavigateTo(href);
-      });
+    // MOBILE NAV TOGGLE
+    const navToggle = document.getElementById('navToggle'); const mobileMenu = document.getElementById('mobileMenu');
+    navToggle.addEventListener('click', ()=>{
+      const open = mobileMenu.classList.toggle('show');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
+      // animate icon between bars and X
+      navToggle.innerHTML = open ? '<i class="fa-solid fa-xmark fa-lg"></i>' : '<i class="fa-solid fa-bars fa-lg"></i>';
     });
+    // close mobile menu when clicking a link
+    mobileMenu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=>{ mobileMenu.classList.remove('show'); navToggle.setAttribute('aria-expanded','false'); navToggle.innerHTML = '<i class="fa-solid fa-bars fa-lg"></i>'; }));
 
-    document.getElementById('btnProjects').addEventListener('click', (e)=>{ e.preventDefault(); smoothNavigateTo('#projects'); });
+    // intersection observer for reveal + skills animation
+    const io = new IntersectionObserver((entries)=>{ entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('show'); if(entry.target.id==='skills'){ document.querySelectorAll('.skill-fill').forEach(sf => { const v = sf.getAttribute('data-val') || 70; sf.style.width = v + '%'; }); } } else { entry.target.classList.remove('show'); if(entry.target.id==='skills') document.querySelectorAll('.skill-fill').forEach(sf => sf.style.width='0%'); } }); }, { threshold:0.12 });
+    document.querySelectorAll('.reveal').forEach(el=> io.observe(el)); io.observe(document.getElementById('skills'));
 
-    // IntersectionObserver: add/remove to allow replaying animations
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add('show');
-          // special behavior: when skills visible, fill bars
-          if(entry.target.id === 'skills'){
-            document.querySelectorAll('.skill-fill').forEach(sf => { const v = sf.getAttribute('data-val') || 70; sf.style.width = v + '%'; });
-          }
-          // timeline items animate when parent visible
-          entry.target.querySelectorAll('.timeline-item').forEach(ti => ti.classList.add('show'));
-        } else {
-          // remove show so animations replay when re-entering viewport
-          entry.target.classList.remove('show');
-          // collapse skill bars to allow re-animation
-          if(entry.target.id === 'skills') document.querySelectorAll('.skill-fill').forEach(sf => sf.style.width = '0%');
-        }
-      });
-    }, { threshold: 0.12 });
+    // mascot spark + tiny life loops
+    setInterval(()=>{ const spark = document.querySelector('.mascot-spark'); if(!spark) return; spark.style.opacity = 1; setTimeout(()=> spark.style.opacity = 0, 900 + Math.random()*700); }, 4200 + Math.random()*2400);
 
-    document.querySelectorAll('.slide-left, .slide-right, .reveal').forEach(el => io.observe(el));
-    io.observe(document.getElementById('skills'));
-    document.querySelectorAll('#experience .timeline-item').forEach(el=> io.observe(el));
-
-    // periodically add tiny life to random project cards so page doesn't feel dead
-    setInterval(()=>{
-      const cards = Array.from(document.querySelectorAll('.project-card'));
-      if(!cards.length) return;
-      const idx = Math.floor(Math.random()*cards.length);
-      const el = cards[idx];
-      el.classList.add('card-float');
-      setTimeout(()=> el.classList.remove('card-float'), 1400 + Math.random()*900);
-    }, 4200 + Math.random()*2600);
-
-    // small random accent on mascot spark so it doesn't feel static
-    setInterval(()=>{
-      const spark = document.querySelector('.mascot-spark');
-      if(!spark) return;
-      spark.style.opacity = 1;
-      setTimeout(()=> spark.style.opacity = 0, 900 + Math.random()*800);
-    }, 4800 + Math.random()*2700);
-
-    // Rendered project cards were created earlier with reveal; give them repeatable animation too
-    // Back to top
-    const topBtn = document.getElementById('topBtn'); topBtn.addEventListener('click', ()=> window.scrollTo({ top:0, behavior:'smooth' }));
-
-    // mascot tilt (kept)
-    (function(){ const wrap = document.getElementById('mascotWrap'); if(!wrap) return; function onMove(e){ if(e.touches) e = e.touches[0]; const rect = wrap.getBoundingClientRect(); const x = (e.clientX - rect.left)/rect.width - 0.5; const y = (e.clientY - rect.top)/rect.height - 0.5; const rx = (y*6).toFixed(2); const ry = (x*-6).toFixed(2); wrap.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`; } function reset(){ wrap.style.transform = ''; } wrap.addEventListener('mousemove', onMove); wrap.addEventListener('mouseleave', reset); wrap.addEventListener('touchstart', ()=> wrap.animate([{ transform:'scale(1)' },{ transform:'scale(1.03)' },{ transform:'scale(1)' }], { duration:220 })); })();
-
-    // keyboard shortcuts
-    window.addEventListener('keydown', e=>{ if(e.key==='Escape') document.getElementById('overlay')?.classList.remove('show'); if(e.key==='t') window.scrollTo({ top:0, behavior:'smooth' }); });
-
+    // toast accessibility shortcut
+    window.addEventListener('keydown', e=>{ if(e.key==='t') document.querySelector('footer')?.scrollIntoView({behavior:'smooth'}); if(e.key==='Escape') closeModal(); });
   </script>
 </body>
 </html>
