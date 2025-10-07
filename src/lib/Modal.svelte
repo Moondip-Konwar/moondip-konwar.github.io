@@ -14,39 +14,29 @@
 
   $: currentProject = projects[current] || {};
 </script>
+{#if modalOpen && projects[modalIndex]}
+  <div class="modal-overlay fixed inset-0 bg-black/70 flex items-center justify-center z-50" on:click={() => modalOpen = false}>
+    <div 
+      class="modal-content bg-gray-900 p-6 rounded-md w-11/12 max-w-lg relative" 
+      on:click|stopPropagation
+    >
+      {console.log('Rendering modal for:', projects[modalIndex])}
+      <button class="absolute top-2 right-2 text-gray-400 hover:text-white" on:click={() => modalOpen = false}>✕</button>
 
-{#if modalOpen}
-  <div class="modal-overlay fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"
-       on:click={() => close()}>
-    <div class="modal-card bg-gray-900 rounded-xl p-6 w-11/12 max-w-lg relative"
-         on:click|stopPropagation>
-      <button class="modal-close absolute top-3 right-3 text-xl" aria-label="Close modal" on:click={close}>
-        &times;
-      </button>
-
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-lg bg-black/30 grid place-items-center">
-          <i class={currentProject.iconClass + ' fa-lg neon-green'}></i>
-        </div>
-        <div>
-          <h2 class="text-xl font-semibold neon-green">{currentProject.title}</h2>
-          <p class="muted mt-1">{currentProject.desc}</p>
-          <div class="mt-2 flex gap-2 flex-wrap">
-            {#each currentProject.tags || [] as t}
-              <span class="px-2 py-1 rounded-full bg-black/20 text-xs">{t}</span>
-            {/each}
-          </div>
-        </div>
+      <h2 class="text-xl font-bold neon-green mb-2">{projects[modalIndex].title}</h2>
+      <p class="mb-3">{projects[modalIndex].desc}</p>
+      <div class="flex flex-wrap gap-2 mb-3">
+        {#each projects[modalIndex].tags as tag}
+          <span class="px-2 py-0.5 bg-gray-800 rounded text-xs">{tag}</span>
+        {/each}
       </div>
-
-      {#if currentProject.href}
-        <div class="mt-4">
-          <a href={currentProject.href} target="_blank" rel="noopener noreferrer"
-             class="px-4 py-2 rounded-md bg-black/25 hover:bg-black/35">
-            Visit Project
-          </a>
-        </div>
-      {/if}
+      <a 
+        href={projects[modalIndex].href} 
+        target="_blank" 
+        class="inline-block mt-2 px-4 py-2 bg-neon-green text-black font-semibold rounded hover:brightness-125 transition"
+      >
+        View Project
+      </a>
     </div>
   </div>
 {/if}
