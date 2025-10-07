@@ -7,43 +7,35 @@ let modalOpen = false;
 let modalIndex = 0;
 
 onMount(async () => {
-  const res = await fetch('https://api.github.com/users/Moondip-Konwar/repos');
-  const data = await res.json();
-  console.log('GitHub API response:', data);
+  try {
+    const res = await fetch('https://api.github.com/users/Moondip-Konwar/repos');
+    const data = await res.json();
 
-  projects = data.map(repo => ({
-    title: repo.name,
-    href: repo.html_url,
-    desc: repo.description || 'No description provided.',
-    tags: repo.topics || [],
-    iconClass: repo.fork ? 'fa-solid fa-code-branch' : 'fa-brands fa-github'
-  }));
-  console.log('Processed projects:', projects);
+    projects = data.map(repo => ({
+      title: repo.name,
+      href: repo.html_url,
+      desc: repo.description || 'No description provided.',
+    }));
+
+    console.log('Projects loaded:', projects);
+  } catch (e) {
+    console.error('Failed to fetch projects:', e);
+  }
 });
 </script>
 
 <section id="projects" class="card mt-6 reveal">
   <div class="flex items-center justify-between">
     <h2 class="text-2xl neon-green">Projects</h2>
-    <div class="muted text-sm">(projects loaded via JS)</div>
+    <div class="muted text-sm">(loaded from GitHub)</div>
   </div>
 
   <div class="projects-grid mt-4">
     {#each projects as p, i (p.title)}
-      <button class="project-card flex items-start gap-3 p-3 bg-gray-800/50 rounded" type="button"
+      <button class="project-card card text-left px-6 py-3 cursor-pointer"
         on:click={() => { modalIndex = i; modalOpen = true; console.log('Clicked project:', p); }}>
-        <div class="w-12 h-12 rounded-lg grid place-items-center bg-black/40">
-          <i class={p.iconClass + ' fa-lg neon-green'}></i>
-        </div>
-        <div class="min-w-0">
-          <h3 class="font-semibold">{p.title}</h3>
-          <p class="muted text-sm mt-1">{p.desc}</p>
-          <div class="mt-1 flex flex-wrap gap-1 text-xs text-gray-400">
-            {#each p.tags as tag}
-              <span class="px-2 py-0.5 bg-gray-700 rounded">{tag}</span>
-            {/each}
-          </div>
-        </div>
+        <h3 class="font-semibold text-lg neon-green">{p.title}</h3>
+        <p class="muted mt-1 text-sm line-clamp-2">{p.desc}</p>
       </button>
     {/each}
   </div>
