@@ -1,24 +1,38 @@
-# moondip-konwar.github.io
+# sv
 
-Welcome to the GitHub Pages repository for [moondip-konwar.github.io](https://moondip-konwar.github.io). This repository serves as the source for my personal website, which currently redirects to [moondip.is-a.dev](https://moondip.is-a.dev).
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-## Overview
+## Creating a project
 
-This repository contains the HTML, CSS, and other assets used to build and deploy my GitHub Pages site. The main purpose of this site is to provide a personal landing page that links to my main site at [moondip.is-a.dev](https://moondip.is-a.dev).
+If you're seeing this, you've probably already done this step. Congrats!
 
+```sh
+# create a new project in the current directory
+npx sv create
 
-## Deployment
+# create a new project in my-app
+npx sv create my-app
+```
 
-This site is hosted via [GitHub Pages](https://pages.github.com/). Any changes pushed to the `main` branch are automatically deployed to the GitHub Pages URL.
+## Developing
 
-## License
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-All content in this repository is © Moondip Konwar. You may use, modify, or distribute the code under the MIT License unless otherwise stated.
+```sh
+npm run dev
 
-## Contact
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
 
-For any inquiries, feel free to reach out:
+## Building
 
-- Website: [moondip.is-a.dev](https://moondip.is-a.dev)
-- GitHub: [moondip-konwar](https://github.com/moondip-konwar)
+To create a production version of your app:
 
+```sh
+npm run build
+```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
