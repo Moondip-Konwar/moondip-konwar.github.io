@@ -4,6 +4,7 @@
   import About from '$lib/About.svelte';
   import Skills from '$lib/Skills.svelte';
   import Projects from '$lib/Projects.svelte';
+  import Starred from '$lib/Starred.svelte';
   import Showcase from '$lib/Showcase.svelte';
   import Contact from '$lib/Contact.svelte';
   import Footer from '$lib/Footer.svelte';
@@ -17,6 +18,7 @@
   <Skills />
   <Showcase />
   <Projects />
+  <Starred />
   <Contact />
   <Footer />
 </main>
