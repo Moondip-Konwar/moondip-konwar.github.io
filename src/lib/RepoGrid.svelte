@@ -64,8 +64,7 @@
             {#if p.lang}
               <span><i class="fa-solid fa-code"></i> {p.lang}</span>
             {/if}
-            <span><i class="fa-solid fa-star"></i> {p.stars}</span>
-          </div>
+                  </div>
         </button>
       {/each}
     </div>
