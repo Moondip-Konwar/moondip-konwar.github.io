@@ -40,5 +40,13 @@ onMount(async () => {
     {/each}
   </div>
 
-  <Modal {modalOpen} {modalIndex} {projects} />
+  {#key modalIndex}
+    <Modal
+      {modalOpen}
+      {modalIndex}
+      {projects}
+      on:close={() => modalOpen = false}
+    />
+  {/key}
+  
 </section>
