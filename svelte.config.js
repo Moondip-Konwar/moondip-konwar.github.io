@@ -7,14 +7,14 @@ const config = {
 
   kit: {
     adapter: adapter({
-      // default options: pages/build/assets inside 'build' folder
       pages: 'build',
       assets: 'build',
-      fallback: null
+      fallback: 'index.html'
     }),
     paths: {
       base: process.env.GITHUB_PAGES ? '/moondip-konwar.github.io' : '',
-    }
+    },
+    trailingSlash: 'always'
   }
 };
 

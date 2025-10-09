@@ -34,7 +34,7 @@
 
   <div class="hero-right">
     <div id="mascotWrap" class="reveal" aria-hidden>
-      <img src="/assets/mascot.jpeg" alt="Mascot" />
+      <img src="assets/mascot.jpeg" alt="Mascot" />
       <div class="mascot-spark" aria-hidden></div>
     </div>
   </div>
