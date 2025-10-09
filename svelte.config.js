@@ -11,11 +11,11 @@ const config = {
       fallback: 'index.html'
     }),
     paths: {
-      base: process.env.GITHUB_PAGES ? '/moondip-konwar.github.io' : ''
+      base: ''
     },
     prerender: {
       entries: ['*'],
-      handleMissingId: 'warn'
+      handleMissingId: 'ignore'
     }
   }
 };
