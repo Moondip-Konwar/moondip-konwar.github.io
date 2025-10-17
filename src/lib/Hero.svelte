@@ -60,3 +60,43 @@
 		</div>
 	</div>
 </section>
+
+<style>
+
+/* Default: desktop layout */
+.hero {
+	display: flex;
+	flex-wrap: wrap; /* allows wrapping on smaller screens */
+	gap: 2rem;
+}
+
+.hero-left {
+	flex: 1 1 400px;
+}
+
+.hero-right {
+	flex: 1 1 300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+	.hero {
+		flex-direction: column; /* stack vertically */
+		align-items: center; /* center all children */
+		text-align: center;
+	}
+
+	.hero-left, .hero-right {
+		flex: unset; /* allow natural width */
+		width: 100%;
+	}
+
+	.hero-right {
+		order: -1; /* move mascot above hero-left */
+		margin-bottom: 1rem;
+	}
+}
+</style>
