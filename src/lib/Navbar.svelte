@@ -17,7 +17,7 @@
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
-      <a href="#showcase">Showcase</a>
+      <a href="#starred">Starred</a>
       <a href="#contact">Contact</a>
     </nav>
 
