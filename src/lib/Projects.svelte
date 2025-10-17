@@ -7,4 +7,5 @@
   apiUrl="https://api.github.com/users/Moondip-Konwar/repos"
   note="(loaded from GitHub)"
   icon="fa-solid fa-folder-open"
+  id="projects"
 />

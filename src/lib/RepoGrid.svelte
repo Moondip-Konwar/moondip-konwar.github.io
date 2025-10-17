@@ -6,6 +6,7 @@
   export let apiUrl = '';
   export let note = '';
   export let icon = 'fa-solid fa-code-branch';
+  export let id = 'projects';
 
   let repos = [];
   let modalOpen = false;
@@ -14,11 +15,12 @@
   let error = null;
 
   // Pagination
-  let visibleCount = 9; // 3 rows (desktop)
-  let increment = 9; // adds 3 rows per click
+  let visibleCount = 8; // 2 rows (desktop)
+  let visibleCountMobile = 6;
+  let increment = 8; // adds 2 rows per click
 
   function getInitialCount() {
-    return typeof window !== 'undefined' && window.innerWidth < 768 ? 6 : 9;
+    return typeof window !== 'undefined' && window.innerWidth < 768 ? visibleCountMobile : visibleCount;
   }
 
   // Weighted sort: 70% stars + 30% recency
@@ -68,7 +70,7 @@
   }
 </script>
 
-<section class="card mt-6 reveal">
+<section class="card mt-6 reveal" id={id}>
   <div class="flex items-center justify-between mb-3">
     <h2 class="text-2xl flex items-center gap-2 neon-green">
       <i class={icon}></i> {title}
