@@ -1,1 +1,1 @@
-<footer class="mt-8 muted text-sm">Made with ☕ and excessive stubbornness. © Moondip Konwar</footer>
+<footer class="mt-8 muted text-sm">Vibe coded the entire site 🌟. © Moondip Konwar</footer>
