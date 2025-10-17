@@ -51,7 +51,11 @@
 
 	<div class="hero-right">
 		<div id="mascotWrap" class="reveal" aria-hidden>
-			<img src="assets/mascot.jpeg" alt="Mascot" />
+			<img
+				src="assets/mascot.jpeg"
+				alt="Mascot"
+				style="filter: grayscale(100%) brightness(1.1) contrast(2.0) sepia(100%) hue-rotate(100deg) saturate(500%);"
+			/>
 			<div class="mascot-spark" aria-hidden></div>
 		</div>
 	</div>
