@@ -5,7 +5,7 @@
 <RepoGrid
   title="Starred Repositories"
   apiUrl="https://api.github.com/users/Moondip-Konwar/starred"
-  note="(your starred GitHub repos)"
+  note=""
   icon="fa-solid fa-star"
   id="starred"
 />

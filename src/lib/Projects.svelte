@@ -5,7 +5,7 @@
 <RepoGrid
   title="Projects"
   apiUrl="https://api.github.com/users/Moondip-Konwar/repos"
-  note="(loaded from GitHub)"
+  note=""
   icon="fa-solid fa-folder-open"
   id="projects"
 />
