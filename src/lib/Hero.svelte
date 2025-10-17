@@ -26,8 +26,8 @@
       <a bind:this={btnProjects} class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/25 hover:bg-black/35" href="#projects">
         View Projects <i class="fa-solid fa-arrow-right ml-1 neon-green"></i>
       </a>
-      <a class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/25 hover:bg-black/35" href="#showcase">
-        Showcase <i class="fa-solid fa-star ml-1 neon-green"></i>
+      <a class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-black/25 hover:bg-black/35" href="#starred">
+        Starred <i class="fa-solid fa-star ml-1 neon-green"></i>
       </a>
     </div>
   </div>

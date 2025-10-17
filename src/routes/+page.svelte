@@ -16,7 +16,6 @@
   <Hero />
   <About />
   <Skills />
-  <Showcase />
   <Projects />
   <Starred />
   <Contact />
