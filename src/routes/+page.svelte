@@ -16,8 +16,8 @@
   <Hero />
   <About />
   <Skills />
-  <Projects />
   <Starred />
+  <Projects />
   <Contact />
   <Footer />
 </main>
