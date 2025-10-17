@@ -55,6 +55,7 @@
           stars: repo.stargazers_count,
           lang: repo.language,
           updated: repo.updated_at,
+          homepage: repo.homepage
         }))
         .sort(sortRepos);
     } catch (e) {
