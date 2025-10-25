@@ -17,13 +17,13 @@
 			class="px-3 py-2 rounded-md bg-black/20"
 			href="https://reddit.com/user/some_useless_person"
 			target="_blank"
-			rel="noopener noreferrer"><i class="fa-brands fa-reddit neon-green"></i> reddit</a
+			rel="noopener noreferrer"><i class="fa-brands fa-reddit neon-green"></i> Reddit</a
 		>
 		<a
 			class="px-3 py-2 rounded-md bg-black/20"
 			href="https://github.com/Moondip-Konwar/"
 			target="_blank"
-			rel="noopener noreferrer"><i class="fa-brands fa-github neon-green"></i> reddit</a
+			rel="noopener noreferrer"><i class="fa-brands fa-github neon-green"></i> Github</a
 		>
 	</div>
 </section>
