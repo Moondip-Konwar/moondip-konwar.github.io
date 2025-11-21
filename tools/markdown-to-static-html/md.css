@@ -1,0 +1,164 @@
+@import 'tailwindcss';
+
+:root {
+    --bg-1: #000000;
+    --bg-2: #020306;
+    --muted: #f0fff4;
+    --green: #22ff7a;
+    --glass: rgba(255, 255, 255, 0.015);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    color: var(--muted);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    padding: 2rem;
+}
+
+/* --- Markdown Elements --- */
+.md-header {
+    font-weight: 700;
+    color: var(--green);
+    text-shadow: 0 0 12px rgba(34, 255, 120, 0.1);
+    margin: 1.5rem 0 1rem;
+}
+
+.md-h1 {
+    font-size: 2.25rem;
+}
+
+.md-h2 {
+    font-size: 2rem;
+}
+
+.md-h3 {
+    font-size: 1.75rem;
+}
+
+.md-h4 {
+    font-size: 1.5rem;
+}
+
+.md-h5 {
+    font-size: 1.25rem;
+}
+
+.md-h6 {
+    font-size: 1rem;
+}
+
+.md-paragraph {
+    line-height: 1.6;
+    margin: 1rem 0;
+    color: var(--muted);
+}
+
+.md-bold {
+    color: var(--green);
+    font-weight: 700;
+}
+
+.md-italic {
+    font-style: italic;
+    color: rgba(240, 255, 244, 0.9);
+}
+
+.md-list-item {
+    margin-left: 2rem;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.md-list-item::before {
+    content: '•';
+    color: var(--green);
+    position: absolute;
+    left: 0;
+}
+
+.md-blockquote {
+    border-left: 3px solid var(--green);
+    padding-left: 1rem;
+    color: rgba(240, 255, 244, 0.8);
+    font-style: italic;
+    margin: 1rem 0;
+}
+
+.md-code {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(34, 255, 120, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: monospace;
+    margin: 1rem 0;
+}
+
+.md-inline-code {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    color: var(--green);
+}
+
+.md-link {
+    color: var(--green);
+    text-decoration: underline;
+}
+
+.md-link:hover {
+    color: #00ff9a;
+    text-shadow: 0 0 12px rgba(34, 255, 120, 0.4);
+}
+
+.md-image {
+    max-width: 100%;
+    border-radius: 12px;
+    margin: 1rem 0;
+    box-shadow: 0 6px 24px rgba(34, 255, 120, 0.04);
+}
+
+.md-hr {
+    border: 1px solid rgba(34, 255, 120, 0.12);
+    margin: 2rem 0;
+}
+
+/* optional subtle animation for headers and paragraphs */
+.md-header,
+.md-paragraph,
+.md-list-item,
+.md-blockquote {
+    transition: all 0.4s ease;
+}
+
+.md-header:hover,
+.md-paragraph:hover,
+.md-list-item:hover,
+.md-blockquote:hover {
+    color: var(--green);
+    text-shadow: 0 0 14px rgba(34, 255, 120, 0.2);
+}
+
+/* responsive */
+@media(max-width:768px) {
+    .md-header {
+        font-size: 1.5rem;
+    }
+
+    .md-h2 {
+        font-size: 1.25rem;
+    }
+
+    .md-h3 {
+        font-size: 1.125rem;
+    }
+
+    .md-paragraph {
+        font-size: 0.95rem;
+    }
+}

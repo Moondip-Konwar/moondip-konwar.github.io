@@ -41,7 +41,7 @@ def convert_to_html(filepath: str) -> list[str]:
             in_code_block = not in_code_block
             if not in_code_block:
                 # Closing code block
-                html_code.append("<pre><code>")
+                html_code.append('<pre class="md-code"><code>')
                 html_code.extend(code_block_lines)
                 html_code.append("</code></pre>")
                 code_block_lines = []
@@ -52,26 +52,30 @@ def convert_to_html(filepath: str) -> list[str]:
 
         # Horizontal rule: ---
         if mdline.startswith("---") or mdline.startswith("***"):
-            html_code.append("<hr>")
+            html_code.append('<hr class="md-hr">')
             continue
 
         # Header: # Header 1, ## Header 2, etc.
         if mdline.startswith("#"):
             hastag_count = words[0].count("#")
             header_text = " ".join(words[1:])
-            html_code.append(f"<h{hastag_count}>{header_text}</h{hastag_count}>")
+            html_code.append(
+                f'<h{hastag_count} class="md-header md-h{hastag_count}">{header_text}</h{hastag_count}>'
+            )
             continue
 
         # Blockquote: > Quote
         if mdline.startswith(">"):
             quote_text = " ".join(words[1:])
-            html_code.append(f"<blockquote>{quote_text}</blockquote>")
+            html_code.append(
+                f'<blockquote class="md-blockquote">{quote_text}</blockquote>'
+            )
             continue
 
         # List: - item or * item
         if mdline.startswith("-") or mdline.startswith("*"):
             list_text = " ".join(words[1:])
-            html_code.append(f"<li>{list_text}</li>")
+            html_code.append(f'<li class="md-list-item">{list_text}</li>')
             continue
 
         # Inline formatting
@@ -79,10 +83,10 @@ def convert_to_html(filepath: str) -> list[str]:
         for word in words:
             # Bold: **text**
             if word.startswith("**") and word.endswith("**") and len(word) > 4:
-                formatted_words.append(f"<strong>{word[2:-2]}</strong>")
+                formatted_words.append(f'<strong class="md-bold">{word[2:-2]}</strong>')
             elif word.startswith("**"):
                 bold_open = True
-                formatted_words.append(f"<strong>{word[2:]}")
+                formatted_words.append(f'<strong class="md-bold">{word[2:]}')
             elif word.endswith("**") and bold_open:
                 bold_open = False
                 formatted_words.append(f"{word[:-2]}</strong>")
@@ -91,10 +95,10 @@ def convert_to_html(filepath: str) -> list[str]:
 
             # Italic: *text*
             elif word.startswith("*") and word.endswith("*") and len(word) > 2:
-                formatted_words.append(f"<em>{word[1:-1]}</em>")
+                formatted_words.append(f'<em class="md-italic">{word[1:-1]}</em>')
             elif word.startswith("*"):
                 italic_open = True
-                formatted_words.append(f"<em>{word[1:]}")
+                formatted_words.append(f'<em class="md-italic">{word[1:]}')
             elif word.endswith("*") and italic_open:
                 italic_open = False
                 formatted_words.append(f"{word[:-1]}</em>")
@@ -103,7 +107,9 @@ def convert_to_html(filepath: str) -> list[str]:
 
             # Inline code: `code`
             elif word.startswith("`") and word.endswith("`") and len(word) > 2:
-                formatted_words.append(f"<code>{word[1:-1]}</code>")
+                formatted_words.append(
+                    f'<code class="md-inline-code">{word[1:-1]}</code>'
+                )
             else:
                 formatted_words.append(word)
 
@@ -112,17 +118,21 @@ def convert_to_html(filepath: str) -> list[str]:
         import re
 
         html_line = re.sub(
-            r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', html_line
+            r"\[([^\]]+)\]\(([^)]+)\)",
+            r'<a class="md-link" href="\2">\1</a>',
+            html_line,
         )
 
         # Images: ![alt](url)
         html_line = re.sub(
-            r"!\[([^\]]*)\]\(([^)]+)\)", r'<img src="\2" alt="\1">', html_line
+            r"!\[([^\]]*)\]\(([^)]+)\)",
+            r'<img class="md-image" src="\2" alt="\1">',
+            html_line,
         )
 
         # Paragraphs
         if html_line:
-            html_code.append(f"<p>{html_line}</p>")
+            html_code.append(f'<p class="md-paragraph">{html_line}</p>')
 
     return html_code
 
@@ -143,6 +153,7 @@ def main():
 
     # Save file
     with open(html_file_path, "w") as f:
+        f.write("""<link rel="stylesheet" href="md.css">""")
         f.write("\n".join(html_code))
 
     print(f"HTML file created: {html_file_path}")
