@@ -21,7 +21,7 @@
 	});
 </script>
 
-<main class="page-wrap mx-auto mt-6 w-full max-w-7xl">
+<main class="page-wrap mx-auto mt-1 w-full max-w-7xl">
 	{#if errorMsg}
 		<p class="text-red-400">{errorMsg}</p>
 	{:else if htmlContent === ''}
