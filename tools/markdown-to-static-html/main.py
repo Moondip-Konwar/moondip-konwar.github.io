@@ -26,78 +26,126 @@ def convert_to_html(filepath: str) -> list[str]:
         mdfile_data: list[str] = mdfile.readlines()
 
     html_code: list[str] = []
+    in_code_block: bool = False
+    code_block_lines: list[str] = []
+
     for mdline in mdfile_data:
+        mdline = mdline.rstrip("\n")
         words: list[str] = mdline.strip().split(" ")
         bold_open: bool = False
         italic_open: bool = False
         html_line: str = ""
 
-        # Header: ### Header 3
+        # Code block: ``` ... ```
+        if mdline.startswith("```"):
+            in_code_block = not in_code_block
+            if not in_code_block:
+                # Closing code block
+                html_code.append("<pre><code>")
+                html_code.extend(code_block_lines)
+                html_code.append("</code></pre>")
+                code_block_lines = []
+            continue
+        if in_code_block:
+            code_block_lines.append(mdline)
+            continue
+
+        # Horizontal rule: ---
+        if mdline.startswith("---") or mdline.startswith("***"):
+            html_code.append("<hr>")
+            continue
+
+        # Header: # Header 1, ## Header 2, etc.
         if mdline.startswith("#"):
             hastag_count = words[0].count("#")
-            header_text = " ".join(words[1:])  # join words to form string
+            header_text = " ".join(words[1:])
             html_code.append(f"<h{hastag_count}>{header_text}</h{hastag_count}>")
+            continue
 
-        # List: - List item
-        elif mdline.startswith("-"):
+        # Blockquote: > Quote
+        if mdline.startswith(">"):
+            quote_text = " ".join(words[1:])
+            html_code.append(f"<blockquote>{quote_text}</blockquote>")
+            continue
+
+        # List: - item or * item
+        if mdline.startswith("-") or mdline.startswith("*"):
             list_text = " ".join(words[1:])
             html_code.append(f"<li>{list_text}</li>")
+            continue
 
-        else:
-            # Subline formatting
-            formatted_words = []
-            for word in words:
+        # Inline formatting
+        formatted_words = []
+        for word in words:
+            # Bold: **text**
+            if word.startswith("**") and word.endswith("**") and len(word) > 4:
+                formatted_words.append(f"<strong>{word[2:-2]}</strong>")
+            elif word.startswith("**"):
+                bold_open = True
+                formatted_words.append(f"<strong>{word[2:]}")
+            elif word.endswith("**") and bold_open:
+                bold_open = False
+                formatted_words.append(f"{word[:-2]}</strong>")
+            elif bold_open:
+                formatted_words.append(word)
 
-                # Bold: **text**
-                if word.startswith("**") and word.endswith("**") and len(word) > 4:
-                    formatted_words.append(f"<strong>{word[2:-2]}</strong>")
-                elif word.startswith("**"):
-                    bold_open = True
-                    formatted_words.append(f"<strong>{word[2:]}")
-                elif word.endswith("**") and bold_open:
-                    bold_open = False
-                    formatted_words.append(f"{word[:-2]}</strong>")
-                elif bold_open:
-                    formatted_words.append(word)
+            # Italic: *text*
+            elif word.startswith("*") and word.endswith("*") and len(word) > 2:
+                formatted_words.append(f"<em>{word[1:-1]}</em>")
+            elif word.startswith("*"):
+                italic_open = True
+                formatted_words.append(f"<em>{word[1:]}")
+            elif word.endswith("*") and italic_open:
+                italic_open = False
+                formatted_words.append(f"{word[:-1]}</em>")
+            elif italic_open:
+                formatted_words.append(word)
 
-                # Italic: *text*
-                elif word.startswith("*") and word.endswith("*") and len(word) > 2:
-                    formatted_words.append(f"<em>{word[1:-1]}</em>")
-                elif word.startswith("*"):
-                    italic_open = True
-                    formatted_words.append(f"<em>{word[1:]}")
-                elif word.endswith("*") and italic_open:
-                    italic_open = False
-                    formatted_words.append(f"{word[:-1]}</em>")
-                elif italic_open:
-                    formatted_words.append(word)
+            # Inline code: `code`
+            elif word.startswith("`") and word.endswith("`") and len(word) > 2:
+                formatted_words.append(f"<code>{word[1:-1]}</code>")
+            else:
+                formatted_words.append(word)
 
-                else:
-                    formatted_words.append(word)
+        # Links: [text](url)
+        html_line = " ".join(formatted_words)
+        import re
 
-            html_line = " ".join(formatted_words)
-            if html_line:
-                html_code.append(f"<p>{html_line}</p>")
+        html_line = re.sub(
+            r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', html_line
+        )
+
+        # Images: ![alt](url)
+        html_line = re.sub(
+            r"!\[([^\]]*)\]\(([^)]+)\)", r'<img src="\2" alt="\1">', html_line
+        )
+
+        # Paragraphs
+        if html_line:
+            html_code.append(f"<p>{html_line}</p>")
 
     return html_code
 
 
 def main():
+    # Parse arguments
+    args = get_args()
+    md_filepath = args.filepath
+    outputdir = args.outputdir
 
-    # Parse the arguments
-    args: argparse.Namespace = get_args()
-    md_filepath: str = args.filepath
-    md_filename: str = md_filepath.split("/")[-1]
-    outputdir: str = args.outputdir
+    # Convert markdown to HTML
+    html_code = convert_to_html(md_filepath)
 
-    # HTML
-    html_code: list[str] = convert_to_html(md_filepath)
+    # Prepare output filename
+    md_basename = os.path.basename(md_filepath)
+    html_filename = os.path.splitext(md_basename)[0] + ".html"
+    html_file_path = os.path.join(outputdir, html_filename)
 
     # Save file
-    html_file_path = os.path.join(outputdir, md_filename) + ".html"
-    with open(html_file_path, "w") as file:
-        file.writelines(html_code)
-    print(f"HTML file created at: {html_file_path}")
+    with open(html_file_path, "w") as f:
+        f.write("\n".join(html_code))
+
+    print(f"HTML file created: {html_file_path}")
 
 
 if __name__ == "__main__":
