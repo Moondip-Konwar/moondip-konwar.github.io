@@ -1,6 +1,8 @@
 <script>
 	import '../app.css';
+	import '../md.css'
 	import favicon from '$lib/assets/favicon.svg';
+  import Navbar from '$lib/Navbar.svelte';
 
 	let { children } = $props();
 </script>
@@ -9,4 +11,5 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+<Navbar />
 {@render children?.()}
